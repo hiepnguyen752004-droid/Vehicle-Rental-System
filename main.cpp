@@ -18,9 +18,9 @@ int main() {
     );
 
     Customer customer(
-        1,
-        "John Smith",
-        "john@email.com",
+        
+        "Austin Nguyen",
+        "Asutin@email.com",
         "password123",
         "713-555-1234"
     );
