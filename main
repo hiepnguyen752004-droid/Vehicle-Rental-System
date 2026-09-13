@@ -1,0 +1,57 @@
+#include <iostream>
+
+#include "Entity/Vehicle.h"
+#include "Entity/Customer.h"
+#include "Entity/Reservation.h"
+
+int main()
+{
+    Vehicle vehicle(
+        1,
+        "Toyota",
+        "Camry",
+        2025,
+        "Sedan",
+        60.00,
+        "Available"
+    );
+
+    Customer customer(
+        1,
+        "John Smith",
+        "john@email.com",
+        "password123",
+        "713-555-1234",
+        "Houston, TX"
+    );
+
+    Reservation reservation(
+        1,
+        customer.getCustomerId(),
+        vehicle.getVehicleId(),
+        "2026-09-20",
+        "2026-09-25",
+        300.00,
+        "Confirmed"
+    );
+
+    std::cout << "Vehicle: "
+              << vehicle.getMake()
+              << " "
+              << vehicle.getModel()
+              << std::endl;
+
+    std::cout << "Customer: "
+              << customer.getName()
+              << std::endl;
+
+    std::cout << "Reservation Vehicle ID: "
+              << reservation.getVehicleId()
+              << std::endl;
+
+    std::cout << "Total Cost: $"
+              << reservation.getTotalCost()
+              << std::endl;
+
+    return 0;
+}
