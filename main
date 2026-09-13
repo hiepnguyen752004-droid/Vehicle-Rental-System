@@ -4,8 +4,9 @@
 #include "Entity/Customer.h"
 #include "Entity/Reservation.h"
 
-int main()
-{
+using namespace std;
+
+int main() {
     Vehicle vehicle(
         1,
         "Toyota",
@@ -21,8 +22,7 @@ int main()
         "John Smith",
         "john@email.com",
         "password123",
-        "713-555-1234",
-        "Houston, TX"
+        "713-555-1234"
     );
 
     Reservation reservation(
@@ -35,23 +35,55 @@ int main()
         "Confirmed"
     );
 
-    std::cout << "Vehicle: "
-              << vehicle.getMake()
-              << " "
-              << vehicle.getModel()
-              << std::endl;
+    cout << "Vehicle: "
+        << vehicle.getYear() << " "
+        << vehicle.getMake() << " "
+        << vehicle.getModel()
+        << endl;
 
-    std::cout << "Customer: "
-              << customer.getName()
-              << std::endl;
+    cout << "Category: "
+        << vehicle.getCategory()
+        << endl;
 
-    std::cout << "Reservation Vehicle ID: "
-              << reservation.getVehicleId()
-              << std::endl;
+    cout << "Daily rate: "
+        << vehicle.getDailyRate()
+        << endl;
 
-    std::cout << "Total Cost: $"
-              << reservation.getTotalCost()
-              << std::endl;
+    cout << endl;
+
+    cout << "customer: "
+        << customer.getName()
+        << endl;
+
+    cout << "email: "
+        << customer.getEmail()
+        << endl;
+
+    cout << "Reservation ID: "
+        << reservation.getReservationId()
+        << endl;
+
+    cout << "Customer ID: "
+        << reservation.getCustomerId()
+        << endl;
+
+    cout << "Vehicle ID: "
+        << reservation.getVehicleId()
+        << endl;
+
+    cout << "Rental dates: "
+        << reservation.getStartDate()
+        << " to "
+        << reservation.getEndDate()
+        << endl;
+
+    cout << "Total cost: $"
+        << reservation.getTotalCost()
+        << endl;
+
+    cout << "Status: "
+        << reservation.getStatus()
+        << endl;
 
     return 0;
 }
