@@ -15,44 +15,43 @@ private:
 
     string startDate;
     string endDate;
+    string status;
 
     double totalCost;
-    string status;
 
 public:
     Reservation();
 
     Reservation(
-        int reservationId,
-        int customerId,
-        int vehicleId,
-        string startDate,
-        string endDate,
-        double totalCost,
-        string status
+        int id,
+        int customer,
+        int vehicle,
+        string start,
+        string end,
+        double cost,
+        string reservationStatus
     );
 
-    
     int getReservationId() const;
     int getCustomerId() const;
     int getVehicleId() const;
 
     string getStartDate() const;
     string getEndDate() const;
-
-    double getTotalCost() const;
     string getStatus() const;
 
+    double getTotalCost() const;
     
-    void setReservationId(int reservationId);
-    void setCustomerId(int customerId);
-    void setVehicleId(int vehicleId);
 
-    void setStartDate(string startDate);
-    void setEndDate(string endDate);
+    void setReservationId(int id);
+    void setCustomerId(int customer);
+    void setVehicleId(int vehicle);
 
-    void setTotalCost(double totalCost);
-    void setStatus(string status);
+    void setStartDate(string start);
+    void setEndDate(string end);
+    void setStatus(string reservationStatus);
+
+    void setTotalCost(double cost);
 };
 
 #endif
