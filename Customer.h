@@ -19,11 +19,11 @@ public:
     Customer();
 
     Customer(
-        int customerId,
-        string name,
-        string email,
-        string password,
-        string phone
+        int id,
+        string customerName,
+        string customerEmail,
+        string customerPassword,
+        string customerPhone
     );
 
     int getCustomerId() const;
@@ -32,11 +32,11 @@ public:
     string getPassword() const;
     string getPhone() const;
 
-    void setCustomerId(int customerId);
-    void setName(string name);
-    void setEmail(string email);
-    void setPassword(string password);
-    void setPhone(string phone);
+    void setCustomerId(int id);
+    void setName(string customerName);
+    void setEmail(string customerEmail);
+    void setPassword(string customerPassword);
+    void setPhone(string customerPhone);
 };
 
 #endif
