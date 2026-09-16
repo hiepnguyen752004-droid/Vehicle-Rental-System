@@ -14,21 +14,23 @@ Reservation::Reservation()
 }
 
 Reservation::Reservation(
-    int reservationId,
-    int customerId,
-    int vehicleId,
-    string startDate,
-    string endDate,
-    double totalCost,
-    string status)
+    int id,
+    int customer,
+    int vehicle,
+    string start,
+    string end,
+    double cost,
+    string reservationStatus)
 {
-    this->reservationId = reservationId;
-    this->customerId = customerId;
-    this->vehicleId = vehicleId;
-    this->startDate = startDate;
-    this->endDate = endDate;
-    this->totalCost = totalCost;
-    this->status = status;
+    reservationId = id;
+    customerId = customer;
+    vehicleId = vehicle;
+
+    startDate = start;
+    endDate = end;
+
+    totalCost = cost;
+    status = reservationStatus;
 }
 
 int Reservation::getReservationId() const
@@ -66,37 +68,37 @@ string Reservation::getStatus() const
     return status;
 }
 
-void Reservation::setReservationId(int reservationId)
+void Reservation::setReservationId(int id)
 {
-    this -> reservationId = reservationId;
+    reservationId = id;
 }
 
-void Reservation::setCustomerId(int customerId)
+void Reservation::setCustomerId(int customer)
 {
-    this -> customerId = customerId;
+    customerId = customer;
 }
 
-void Reservation::setVehicleId(int vehicleId)
+void Reservation::setVehicleId(int vehicle)
 {
-    this -> vehicleId = vehicleId;
+    vehicleId = vehicle;
 }
 
-void Reservation::setStartDate(string startDate)
+void Reservation::setStartDate(string start)
 {
-    this -> startDate = startDate;
+    startDate = start;
 }
 
-void Reservation::setEndDate(string endDate)
+void Reservation::setEndDate(string end)
 {
-    this -> endDate = endDate;
+    endDate = end;
 }
 
-void Reservation::setTotalCost(double totalCost)
+void Reservation::setTotalCost(double cost)
 {
-    this -> totalCost = totalCost;
+    totalCost = cost;
 }
 
-void Reservation::setStatus(string status)
+void Reservation::setStatus(string reservationStatus)
 {
-    this -> status = status;
+    status = reservationStatus;
 }
