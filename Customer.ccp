@@ -10,17 +10,17 @@ Customer::Customer()
 }
 
 Customer::Customer(
-    int customerId,
-    string name,
-    string email,
-    string password,
-    string phone)
+    int id,
+    string customerName,
+    string customerEmail,
+    string customerPassword,
+    string customerPhone)
 {
-    this->customerId = customerId;
-    this->name = name;
-    this->email = email;
-    this->password = password;
-    this->phone = phone;
+    customerId = id;
+    name = customerName;
+    email = customerEmail;
+    password = customerPassword;
+    phone = customerPhone;
 }
 
 int Customer::getCustomerId() const
@@ -48,27 +48,27 @@ string Customer::getPhone() const
     return phone;
 }
 
-void Customer::setCustomerId(int customerId)
+void Customer::setCustomerId(int id)
 {
-    this->customerId = customerId;
+    customerId = id;
 }
 
-void Customer::setName(string name)
+void Customer::setName(string customerName)
 {
-    this->name = name;
+    name = customerName;
 }
 
-void Customer::setEmail(string email)
+void Customer::setEmail(string customerEmail)
 {
-    this->email = email;
+    email = customerEmail;
 }
 
-void Customer::setPassword(string password)
+void Customer::setPassword(string customerPassword)
 {
-    this->password = password;
+    password = customerPassword;
 }
 
-void Customer::setPhone(string phone)
+void Customer::setPhone(string customerPhone)
 {
-    this->phone = phone;
+    phone = customerPhone;
 }
