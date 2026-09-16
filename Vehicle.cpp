@@ -12,21 +12,21 @@ Vehicle::Vehicle()
 }
 
 Vehicle::Vehicle(
-    int vehicleId,
-    string make,
-    string model,
-    int year,
-    string category,
-    double dailyRate,
-    string status)
+    int id,
+    string vehicleMake,
+    string vehicleModel,
+    int vehicleYear,
+    string vehicleCategory,
+    double rate,
+    string vehicleStatus)
 {
-    this->vehicleId = vehicleId;
-    this->make = make;
-    this->model = model;
-    this->year = year;
-    this->category = category;
-    this->dailyRate = dailyRate;
-    this->status = status;
+    vehicleId = id;
+    make = vehicleMake;
+    model = vehicleModel;
+    year = vehicleYear;
+    category = vehicleCategory;
+    dailyRate = rate;
+    status = vehicleStatus;
 }
 
 int Vehicle::getVehicleId() const
@@ -64,37 +64,37 @@ string Vehicle::getStatus() const
     return status;
 }
 
-void Vehicle::setVehicleId(int vehicleId)
+void Vehicle::setVehicleId(int id)
 {
-    this->vehicleId = vehicleId;
+    vehicleId = id;
 }
 
-void Vehicle::setMake(string make)
+void Vehicle::setMake(string vehicleMake)
 {
-    this->make = make;
+    make = vehicleMake;
 }
 
-void Vehicle::setModel(string model)
+void Vehicle::setModel(string vehicleModel)
 {
-    this->model = model;
+    model = vehicleModel;
 }
 
-void Vehicle::setYear(int year)
+void Vehicle::setYear(int vehicleYear)
 {
-    this->year = year;
+    year = vehicleYear;
 }
 
-void Vehicle::setCategory(string category)
+void Vehicle::setCategory(string vehicleCategory)
 {
-    this->category = category;
+    category = vehicleCategory;
 }
 
-void Vehicle::setDailyRate(double dailyRate)
+void Vehicle::setDailyRate(double rate)
 {
-    this->dailyRate = dailyRate;
+    dailyRate = rate;
 }
 
-void Vehicle::setStatus(string status)
+void Vehicle::setStatus(string vehicleStatus)
 {
-    this->status = status;
+    status = vehicleStatus;
 }
