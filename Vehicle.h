@@ -21,16 +21,15 @@ public:
     Vehicle();
 
     Vehicle(
-        int vehicleId,
-        string make,
-        string model,
-        int year,
-        string category,
-        double dailyRate,
-        string status
+        int id,
+        string vehicleMake,
+        string vehicleModel,
+        int vehicleYear,
+        string vehicleCategory,
+        double rate,
+        string vehicleStatus
     );
 
-    
     int getVehicleId() const;
     string getMake() const;
     string getModel() const;
@@ -39,14 +38,13 @@ public:
     double getDailyRate() const;
     string getStatus() const;
 
-    
-    void setVehicleId(int vehicleId);
-    void setMake(string make);
-    void setModel(string model);
-    void setYear(int year);
-    void setCategory(string category);
-    void setDailyRate(double dailyRate);
-    void setStatus(string status);
+    void setVehicleId(int id);
+    void setMake(string vehicleMake);
+    void setModel(string vehicleModel);
+    void setYear(int vehicleYear);
+    void setCategory(string vehicleCategory);
+    void setDailyRate(double rate);
+    void setStatus(string vehicleStatus);
 };
 
 #endif
