@@ -1,42 +1,40 @@
 #pragma once
 #ifndef VEHICLE_H
 #define VEHICLE_H
-
 #include <string>
 
 using namespace std;
-
 class Vehicle
 {
 private:
     int vehicleId;
+    int year;
     string make;
     string model;
-    int year;
+    string status;
     string category;
     double dailyRate;
-    string status;
 
 public:
     Vehicle();
 
     Vehicle(
         int id,
+        int vehicleYear,
         string vehicleMake,
         string vehicleModel,
-        int vehicleYear,
         string vehicleCategory,
-        double rate,
-        string vehicleStatus
+        string vehicleStatus,
+        double rate
     );
 
     int getVehicleId() const;
+    int getYear() const;
     string getMake() const;
     string getModel() const;
-    int getYear() const;
     string getCategory() const;
-    double getDailyRate() const;
     string getStatus() const;
+    double getDailyRate() const;
 
     void setVehicleId(int id);
     void setMake(string vehicleMake);
