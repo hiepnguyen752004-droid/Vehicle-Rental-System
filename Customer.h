@@ -1,11 +1,9 @@
 #pragma once
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
-
 #include <string>
 
 using namespace std;
-
 class Customer
 {
 private:
