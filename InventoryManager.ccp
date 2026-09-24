@@ -1,6 +1,5 @@
 #include <iostream>
 #include "InventoryManager.h"
-
 using namespace std;
 
 void InventoryManager::addVehicle(Vehicle vehicle)
@@ -12,7 +11,6 @@ void InventoryManager::viewVehicleBrands() const
 {
     cout << "VEHICLE INVENTORY" << endl;
     
-
     for (const Vehicle& vehicle : vehicles)
     {
         cout << vehicle.getMake() << endl;
@@ -71,12 +69,9 @@ void InventoryManager::removeVehicle(int id)
         if (vehicles[i].getVehicleId() == id)
         {
             vehicles.erase(vehicles.begin() + i);
-
             cout << "Vehicle removed from inventory." << endl;
-
             return;
         }
     }
-
     cout << "Vehicle not found." << endl;
 }
