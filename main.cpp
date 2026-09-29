@@ -19,8 +19,31 @@ int main()
         "Available"
     );
 
+
     Vehicle vehicle2(
         2,
+        "Toyota",
+        "Corolla",
+        2025,
+        "Sedan",
+        50.00,
+        "Available"
+    );
+
+
+    Vehicle vehicle3(
+        3,
+        "Toyota",
+        "RAV4",
+        2024,
+        "Suv",
+        75.00,
+        "Available"
+    );
+
+
+    Vehicle vehicle4(
+        4,
         "Honda",
         "Civic",
         2024,
@@ -29,47 +52,77 @@ int main()
         "Available"
     );
 
-    Vehicle vehicle3(
-        3,
+
+    Vehicle vehicle5(
+        5,
+        "Honda",
+        "Accord",
+        2025,
+        "Sedan",
+        65.00,
+        "Available"
+    );
+
+
+    Vehicle vehicle6(
+        6,
         "Ford",
         "Explorer",
         2025,
-        "SUV",
+        "Suv",
         85.00,
         "Available"
     );
 
-    Vehicle vehicle4(
-        4,
-        "Chevrolet",
-        "Tahoe",
+
+    Vehicle vehicle7(
+        7,
+        "Toyota",
+        "Camry",
         2024,
-        "SUV",
-        95.00,
-        "Unavailable"
+        "Sedan",
+        55.00,
+        "Available"
     );
+
+
+    Vehicle vehicle8(
+        8,
+        "Toyota",
+        "Camry",
+        2025,
+        "Sedan",
+        65.00,
+        "Available"
+    );
+
+    Vehicle vehicle9(
+        8,
+        "Ford",
+        "Explorer",
+        2019,
+        "Suv",
+        65.00,
+        "Available"
+    );
+
 
 
     InventoryManager inventory;
 
+
+  
     inventory.addVehicle(vehicle1);
     inventory.addVehicle(vehicle2);
     inventory.addVehicle(vehicle3);
     inventory.addVehicle(vehicle4);
+    inventory.addVehicle(vehicle5);
+    inventory.addVehicle(vehicle6);
+    inventory.addVehicle(vehicle7);
+    inventory.addVehicle(vehicle8);
+    inventory.addVehicle(vehicle9);
 
-
-    
-    inventory.viewVehicleBrands();
-
-
-    
-    string searchMake;
-
-    cout << endl;
-    cout << "Enter vehicle brand to search: ";
-    cin >> searchMake;
-
-    inventory.searchVehicleByMake(searchMake);
+    inventory.searchVehicleStepByStep();
 
 
    
@@ -82,7 +135,7 @@ int main()
     );
 
 
-  
+
     Reservation reservation(
         1,
         customer.getCustomerId(),
@@ -95,7 +148,7 @@ int main()
 
 
     cout << endl;
-    cout << "CUSTOMER" << endl;
+    cout << "CUSTOMER EXAMPLE" << endl;
     
 
     cout << "Customer: "
@@ -108,8 +161,8 @@ int main()
 
 
     cout << endl;
-    cout << "RESERVATION" << endl;
-    
+    cout << "RESERVATION EXAMPLE" << endl;
+   ;
 
     cout << "Reservation ID: "
         << reservation.getReservationId()
