@@ -69,7 +69,7 @@ void InventoryManager::searchVehicleStepByStep() const
     }
 
 
-    cout << "VEHICLE RENTAL SEARCH" << endl;
+    cout << "Vehicle Rental Search" << endl;
 
     cout << endl;
 
@@ -220,7 +220,7 @@ void InventoryManager::searchVehicleStepByStep() const
 
 
     cout << endl;
-    cout << "AVAILABLE YEARS" << endl;
+    cout << "Available years" << endl;
     
 
 
@@ -258,7 +258,7 @@ void InventoryManager::searchVehicleStepByStep() const
 
     cout << endl;
 
-    cout << "MATCHING VEHICLES" << endl;
+    cout << "Matching vehicles" << endl;
 
 
     for (const Vehicle& vehicle : yearResults)
