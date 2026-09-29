@@ -5,8 +5,10 @@ Reservation::Reservation()
     reservationId = 0;
     customerId = 0;
     vehicleId = 0;
+
     startDate = "";
     endDate = "";
+
     totalCost = 0.0;
     status = "Pending";
 }
