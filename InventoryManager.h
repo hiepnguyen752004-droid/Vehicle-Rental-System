@@ -2,8 +2,8 @@
 #define INVENTORYMANAGER_H
 
 #include <vector>
-#include <string>
 #include "Vehicle.h"
+
 using namespace std;
 
 class InventoryManager
@@ -14,7 +14,7 @@ private:
 public:
     void addVehicle(Vehicle vehicle);
     void viewVehicleBrands() const;
-    void searchVehicleByMake(string make) const;
+    void searchVehicleStepByStep() const;
     void removeVehicle(int id);
 };
 
