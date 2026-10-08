@@ -9,31 +9,13 @@ void InventoryManager::addVehicle(Vehicle vehicle)
     vehicles.push_back(vehicle);
 }
 
-void InventoryManager::viewVehicleBrands() const
+
+int InventoryManager::searchVehicleStepByStep() const
 {
-    set<string> brands;
-
-    cout << "AVAILABLE VEHICLE BRANDS" << endl;
-
-    for (const Vehicle& vehicle : vehicles)
-    {
-        brands.insert(vehicle.getMake());
-    }
-
-    for (string brand : brands)
-    {
-        cout << brand << endl;
-    }
-}
-
-
-void InventoryManager::searchVehicleStepByStep() const
-{
- 
     if (vehicles.empty())
     {
         cout << "No vehicles in inventory." << endl;
-        return;
+        return -1;
     }
 
 
@@ -54,6 +36,7 @@ void InventoryManager::searchVehicleStepByStep() const
     vector<Vehicle> yearResults;
 
 
+    
 
     for (const Vehicle& vehicle : vehicles)
     {
@@ -69,7 +52,8 @@ void InventoryManager::searchVehicleStepByStep() const
     }
 
 
-    cout << "Vehicle Rental Search" << endl;
+    cout << "VEHICLE RENTAL SEARCH" << endl;
+ 
 
     cout << endl;
 
@@ -78,6 +62,11 @@ void InventoryManager::searchVehicleStepByStep() const
         << " - $"
         << highestRate
         << endl;
+
+
+   
+
+    cout << endl;
 
     cout << "Enter minimum daily rate: $";
     cin >> minRate;
@@ -89,10 +78,9 @@ void InventoryManager::searchVehicleStepByStep() const
     if (minRate > maxRate)
     {
         cout << endl;
-        cout << "Minimum rate cannot be greater than maximum rate."
-            << endl;
+        cout << "Invalid price range." << endl;
 
-        return;
+        return -1;
     }
 
 
@@ -109,16 +97,15 @@ void InventoryManager::searchVehicleStepByStep() const
     if (rateResults.empty())
     {
         cout << endl;
-        cout << "No vehicles found in that price range."
-            << endl;
+        cout << "No vehicles found in that price range." << endl;
 
-        return;
+        return -1;
     }
 
 
- 
-    set<string> brands;
+    // BRAND FILTER
 
+    set<string> brands;
 
     for (const Vehicle& vehicle : rateResults)
     {
@@ -127,11 +114,8 @@ void InventoryManager::searchVehicleStepByStep() const
 
 
     cout << endl;
-    cout << "AVAILABLE BRANDS IN YOUR PRICE RANGE"
-        << endl;
-
+    cout << "AVAILABLE BRANDS" << endl;
     
-     
 
 
     for (string brand : brands)
@@ -158,8 +142,12 @@ void InventoryManager::searchVehicleStepByStep() const
     {
         cout << endl;
         cout << "Vehicle brand not found." << endl;
-        return;
+
+        return -1;
     }
+
+
+    // MODEL FILTER
 
     set<string> models;
 
@@ -171,11 +159,8 @@ void InventoryManager::searchVehicleStepByStep() const
 
 
     cout << endl;
-
-    cout << "AVAILABLE "
-        << make
-        << " MODELS"
-        << endl;
+    cout << "AVAILABLE " << make << " MODELS" << endl;
+    
 
 
     for (string vehicleModel : models)
@@ -185,12 +170,10 @@ void InventoryManager::searchVehicleStepByStep() const
 
 
     cout << endl;
-
     cout << "Enter vehicle model: ";
     cin >> model;
 
 
-  
     for (const Vehicle& vehicle : brandResults)
     {
         if (vehicle.getModel() == model)
@@ -204,12 +187,12 @@ void InventoryManager::searchVehicleStepByStep() const
     {
         cout << endl;
         cout << "Vehicle model not found." << endl;
-        return;
+
+        return -1;
     }
 
 
-   
-
+ 
     set<int> years;
 
 
@@ -220,7 +203,7 @@ void InventoryManager::searchVehicleStepByStep() const
 
 
     cout << endl;
-    cout << "Available years" << endl;
+    cout << "AVAILABLE YEARS" << endl;
     
 
 
@@ -231,10 +214,8 @@ void InventoryManager::searchVehicleStepByStep() const
 
 
     cout << endl;
-
     cout << "Enter vehicle year: ";
     cin >> year;
-
 
 
     for (const Vehicle& vehicle : modelResults)
@@ -250,15 +231,16 @@ void InventoryManager::searchVehicleStepByStep() const
     {
         cout << endl;
         cout << "Vehicle year not found." << endl;
-        return;
+
+        return -1;
     }
 
 
-
+    
 
     cout << endl;
-
-    cout << "Matching vehicles" << endl;
+    cout << "MATCHING VEHICLES" << endl;
+    
 
 
     for (const Vehicle& vehicle : yearResults)
@@ -285,8 +267,49 @@ void InventoryManager::searchVehicleStepByStep() const
             << vehicle.getStatus()
             << endl;
 
-       
+        
     }
+
+
+    // SELECT VEHICLE
+
+    int selectedId;
+
+    cout << endl;
+    cout << "Enter Vehicle ID to select: ";
+    cin >> selectedId;
+
+
+    for (const Vehicle& vehicle : yearResults)
+    {
+        if (vehicle.getVehicleId() == selectedId)
+        {
+            if (vehicle.getStatus() != "Available")
+            {
+                cout << endl;
+                cout << "This vehicle is currently unavailable."
+                    << endl;
+
+                return -1;
+            }
+
+            cout << endl;
+
+            cout << "Vehicle selected: "
+                << vehicle.getYear() << " "
+                << vehicle.getMake() << " "
+                << vehicle.getModel()
+                << endl;
+
+            return selectedId;
+        }
+    }
+
+
+    cout << endl;
+    cout << "Invalid Vehicle ID." << endl;
+
+    return -1;
 }
 
 
@@ -298,7 +321,8 @@ void InventoryManager::removeVehicle(int id)
         {
             vehicles.erase(vehicles.begin() + i);
 
-            cout << "Vehicle removed from inventory." << endl;
+            cout << "Vehicle removed from inventory."
+                << endl;
 
             return;
         }
