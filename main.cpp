@@ -4,11 +4,13 @@
 #include "Customer.h"
 #include "Reservation.h"
 #include "InventoryManager.h"
+#include "ReservationManager.h"
 
 using namespace std;
 
 int main()
 {
+
     Vehicle vehicle1(
         1,
         "Toyota",
@@ -18,7 +20,6 @@ int main()
         60.00,
         "Available"
     );
-
 
     Vehicle vehicle2(
         2,
@@ -36,7 +37,7 @@ int main()
         "Toyota",
         "RAV4",
         2024,
-        "Suv",
+        "SUV",
         75.00,
         "Available"
     );
@@ -69,7 +70,7 @@ int main()
         "Ford",
         "Explorer",
         2025,
-        "Suv",
+        "SUV",
         85.00,
         "Available"
     );
@@ -77,6 +78,17 @@ int main()
 
     Vehicle vehicle7(
         7,
+        "Chevrolet",
+        "Tahoe",
+        2024,
+        "SUV",
+        95.00,
+        "Available"
+    );
+
+
+    Vehicle vehicle8(
+        8,
         "Toyota",
         "Camry",
         2024,
@@ -86,8 +98,8 @@ int main()
     );
 
 
-    Vehicle vehicle8(
-        8,
+    Vehicle vehicle9(
+        9,
         "Toyota",
         "Camry",
         2025,
@@ -96,22 +108,23 @@ int main()
         "Available"
     );
 
-    Vehicle vehicle9(
-        8,
-        "Ford",
-        "Explorer",
-        2019,
-        "Suv",
-        65.00,
+
+    Vehicle vehicle10(
+        10,
+        "BMW",
+        "X5",
+        2025,
+        "SUV",
+        120.00,
         "Available"
     );
 
 
+  
 
     InventoryManager inventory;
 
 
-  
     inventory.addVehicle(vehicle1);
     inventory.addVehicle(vehicle2);
     inventory.addVehicle(vehicle3);
@@ -121,11 +134,11 @@ int main()
     inventory.addVehicle(vehicle7);
     inventory.addVehicle(vehicle8);
     inventory.addVehicle(vehicle9);
+    inventory.addVehicle(vehicle10);
 
-    inventory.searchVehicleStepByStep();
 
+    // CUSTOMER
 
-   
     Customer customer(
         1,
         "Austin Nguyen",
@@ -135,21 +148,8 @@ int main()
     );
 
 
-
-    Reservation reservation(
-        1,
-        customer.getCustomerId(),
-        vehicle1.getVehicleId(),
-        "2026-09-20",
-        "2026-09-25",
-        300,
-        "Confirmed"
-    );
-
-
     cout << endl;
-    cout << "CUSTOMER EXAMPLE" << endl;
-    
+    cout << "CUSTOMER" << endl;
 
     cout << "Customer: "
         << customer.getName()
@@ -160,35 +160,72 @@ int main()
         << endl;
 
 
+
+
     cout << endl;
-    cout << "RESERVATION EXAMPLE" << endl;
-   ;
 
-    cout << "Reservation ID: "
-        << reservation.getReservationId()
-        << endl;
+    int selectedVehicleId =
+        inventory.searchVehicleStepByStep();
 
-    cout << "Customer ID: "
-        << reservation.getCustomerId()
-        << endl;
 
-    cout << "Vehicle ID: "
-        << reservation.getVehicleId()
-        << endl;
+    if (selectedVehicleId == -1)
+    {
+        cout << endl;
+        cout << "No vehicle selected."
+            << endl;
+        return 0;
+    }
 
-    cout << "Rental dates: "
-        << reservation.getStartDate()
-        << " to "
-        << reservation.getEndDate()
-        << endl;
 
-    cout << "Total cost: $"
-        << reservation.getTotalCost()
-        << endl;
 
-    cout << "Status: "
-        << reservation.getStatus()
-        << endl;
+    ReservationManager reservationManager;
+    string startDate;
+    string endDate;
+
+
+    cout << endl;
+    cout << "CREATE RESERVATION" << endl;
+
+
+    cout << "Enter rental start date "
+        << "(YYYY-MM-DD): ";
+
+    cin >> startDate;
+
+
+    cout << "Enter rental end date "
+        << "(YYYY-MM-DD): ";
+
+    cin >> endDate;
+
+
+    Reservation reservation1(
+        1,
+        customer.getCustomerId(),
+        selectedVehicleId,
+        startDate,
+        endDate,
+        0.00,
+        "Confirmed"
+    );
+
+
+    reservationManager.createReservation( reservation1 );
+
+
+    reservationManager.viewReservations();
+
+    int cancelId;
+
+    cout << endl;
+    cout << "Enter Reservation ID to cancel: ";
+    cin >> cancelId;
+
+    reservationManager.cancelReservation(cancelId);
+    cout << endl;
+    cout << "UPDATED RESERVATIONS" << endl;
+
+    reservationManager.viewReservations();
 
 
     return 0;
