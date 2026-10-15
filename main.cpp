@@ -1,133 +1,322 @@
-#include "PaymentCalculator.h"
+#include <iostream>
+#include <iomanip>
+#include <limits>
 #include <cctype>
-#include <cmath>
+
+#include "Vehicle.h"
+#include "Customer.h"
+#include "Reservation.h"
+#include "InventoryManager.h"
+#include "ReservationManager.h"
+#include "PaymentCalculator.h"
+
 using namespace std;
 
-namespace {
+int main() {
 
-    bool isLeapYear(int year) {
-        return (year % 400 == 0) ||
-            (year % 4 == 0 && year % 100 != 0);
-    }
+    
 
-    int daysInMonth(int year, int month) {
-        const int monthDays[12] = {
-            31, 28, 31, 30, 31, 30,
-            31, 31, 30, 31, 30, 31
-        };
+    InventoryManager inventory;
 
-        if (month == 2 && isLeapYear(year))
-            return 29;
+    
 
-        return monthDays[month - 1];
-    }
+    inventory.addVehicle(
+        Vehicle( 1, "Toyota", "Camry", 2025,"Sedan", 60, "Available")
+    );
 
-    bool parseDate(
-        const string& date,
-        int& year,
-        int& month,
-        int& day
-    ) {
-        if (date.size() != 10 ||
-            date[4] != '-' ||
-            date[7] != '-') {
-            return false;
+    inventory.addVehicle(
+        Vehicle(2, "Toyota", "Corolla", 2025,"Sedan", 50, "Available")
+    );
+
+    inventory.addVehicle(
+        Vehicle( 3, "Toyota", "RAV4", 2024, "SUV", 75, "Available"
+        )
+    );
+
+    inventory.addVehicle(
+        Vehicle( 4, "Honda", "Civic", 2024, "Sedan", 55, "Available")
+    );
+
+    inventory.addVehicle(
+        Vehicle( 5, "Honda", "Accord", 2025,"Sedan", 65, "Available")
+    );
+
+    inventory.addVehicle(
+        Vehicle( 6, "Ford", "Explorer", 2025,"SUV", 85, "Available"
+        )
+    );
+
+    inventory.addVehicle(
+        Vehicle( 7, "Chevrolet", "Tahoe", 2024,"SUV", 95, "Available"
+        )
+    );
+
+    inventory.addVehicle(
+        Vehicle(8, "Toyota", "Camry", 2024,"Sedan", 55, "Available"
+        )
+    );
+
+    inventory.addVehicle(
+        Vehicle( 9, "Toyota", "Camry", 2025,"Sedan", 65, "Available")
+    );
+
+    inventory.addVehicle(
+        Vehicle(10, "BMW", "X5", 2025,"SUV", 120, "Available")
+    );
+
+   
+
+    Customer customer(
+        1,
+        "Austin Customer",
+        "Austin@example.com",
+        "demo-only",
+        "000-000-0000"
+    );
+
+  
+
+    ReservationManager reservationManager;
+
+    int nextReservationId = 1;
+
+    cout << fixed << setprecision(2);
+
+    cout << "Vehicle Rental Management System\n";
+
+    cout << "Customer: "
+        << customer.getName() << "\n";
+
+  
+
+    while (true) {
+
+        
+
+        cout << "1. Search and reserve vehicle\n";
+        cout << "2. View reservations\n";
+        cout << "3. Cancel reservation\n";
+        cout << "4. Exit\n";
+
+        cout << "Enter option: ";
+
+        int option;
+
+        if (!(cin >> option)) {
+
+            if (cin.eof()) {
+                break;
+            }
+
+            cin.clear();
+
+            cin.ignore(
+                numeric_limits<streamsize>::max(),
+                '\n'
+            );
+
+            cout << "Please enter a number from 1 to 4.\n";
+
+            continue;
         }
 
-        for (int i = 0; i < 10; i++) {
-            if (i == 4 || i == 7)
+       
+
+        if (option == 1) {
+
+            int selectedVehicleId =
+                inventory.searchVehicleStepByStep();
+
+            if (selectedVehicleId == -1) {
                 continue;
+            }
 
-            if (!isdigit(
-                static_cast<unsigned char>(date[i])
-            ))
-                return false;
+         
+
+            Vehicle selectedVehicle;
+
+            if (!inventory.getVehicleById(
+                selectedVehicleId,
+                selectedVehicle
+            )) {
+
+                cout << "Selected vehicle not found.\n";
+
+                continue;
+            }
+
+        
+
+            string startDate;
+            string endDate;
+
+            cout << "Enter start date (YYYY-MM-DD): ";
+            cin >> startDate;
+
+            cout << "Enter end date (YYYY-MM-DD): ";
+            cin >> endDate;
+
+           
+
+            int rentalDays =
+                PaymentCalculator::calculateRentalDays(
+                    startDate,
+                    endDate
+                );
+
+            if (rentalDays == -1) {
+
+                cout << "Invalid date range. "
+                    << "Use YYYY-MM-DD, "
+                    << "with end >= start.\n";
+
+                continue;
+            }
+
+            
+
+            if (!reservationManager.checkAvailability(
+                selectedVehicleId,
+                startDate,
+                endDate
+            )) {
+
+                cout << "Booking conflict: Vehicle "
+                    << selectedVehicleId
+                    << " is already reserved "
+                    << "for these dates.\n";
+
+                continue;
+            }
+
+         
+
+            double totalCost =
+                PaymentCalculator::calculateTotalCost(
+                    selectedVehicle.getDailyRate(),
+                    rentalDays
+                );
+
+            if (totalCost < 0) {
+
+                cout << "Unable to calculate "
+                    << "the rental cost.\n";
+
+                continue;
+            }
+
+        
+
+            
+
+            cout << "Vehicle: "
+                << selectedVehicle.getYear() << " "
+                << selectedVehicle.getMake() << " "
+                << selectedVehicle.getModel() << "\n";
+
+            cout << "Daily rate: $"
+                << selectedVehicle.getDailyRate() << "\n";
+
+            cout << "Rental days: "
+                << rentalDays << "\n";
+
+            cout << "Total cost: $"
+                << totalCost << "\n";
+
+
+
+            char confirm;
+
+            cout << "Confirm reservation? (Y/N): ";
+            cin >> confirm;
+
+            if (toupper(
+                static_cast<unsigned char>(confirm)
+            ) != 'Y') {
+
+                cout << "Reservation not created.\n";
+
+                continue;
+            }
+
+           
+
+            Reservation reservation(
+                nextReservationId,
+                customer.getCustomerId(),
+                selectedVehicleId,
+                startDate,
+                endDate,
+                totalCost,
+                "Confirmed"
+            );
+
+            
+
+            if (reservationManager.createReservation(
+                reservation
+            )) {
+
+                cout << "Your reservation ID is "
+                    << nextReservationId
+                    << ".\n";
+
+                nextReservationId++;
+            }
         }
 
-        year = stoi(date.substr(0, 4));
-        month = stoi(date.substr(5, 2));
-        day = stoi(date.substr(8, 2));
+        
 
-        if (year < 1 || month < 1 || month > 12)
-            return false;
+        else if (option == 2) {
 
-        if (day < 1 ||
-            day > daysInMonth(year, month))
-            return false;
+            reservationManager.viewReservations();
+        }
 
-        return true;
+
+        else if (option == 3) {
+
+            int reservationId;
+
+            cout << "Enter Reservation ID to cancel: ";
+
+            if (!(cin >> reservationId)) {
+
+                if (cin.eof()) {
+                    break;
+                }
+
+                cin.clear();
+
+                cin.ignore(
+                    numeric_limits<streamsize>::max(),
+                    '\n'
+                );
+
+                cout << "Invalid Reservation ID.\n";
+
+                continue;
+            }
+
+            reservationManager.cancelReservation(
+                reservationId
+            );
+        }
+
+       
+
+        else if (option == 4) {
+
+            cout << "end";
+
+            break;
+        }
+
+        else {
+
+            cout << "Please choose option "
+                << "1, 2, 3, or 4.\n";
+        }
     }
 
-    int countDaysToDate(
-        int year,
-        int month,
-        int day
-    ) {
-        const int daysBeforeMonth[12] = {
-            0, 31, 59, 90, 120, 151,
-            181, 212, 243, 273, 304, 334
-        };
-
-        int completedYears = year - 1;
-
-        int total = completedYears * 365
-            + completedYears / 4
-            - completedYears / 100
-            + completedYears / 400;
-
-        total += daysBeforeMonth[month - 1] + day;
-
-        if (month > 2 && isLeapYear(year))
-            total++;
-
-        return total;
-    }
-}
-
-int PaymentCalculator::calculateRentalDays(
-    const string& startDate,
-    const string& endDate
-) {
-    int startYear, startMonth, startDay;
-    int endYear, endMonth, endDay;
-
-    if (!parseDate(
-        startDate,
-        startYear,
-        startMonth,
-        startDay
-    ) ||
-        !parseDate(
-            endDate,
-            endYear,
-            endMonth,
-            endDay
-        )) {
-        return -1;
-    }
-
-    int start = countDaysToDate(
-        startYear, startMonth, startDay
-    );
-
-    int end = countDaysToDate(
-        endYear, endMonth, endDay
-    );
-
-    if (end < start)
-        return -1;
-
-    return end - start + 1;
-}
-
-double PaymentCalculator::calculateTotalCost(
-    double dailyRate,
-    int rentalDays
-) {
-    if (dailyRate < 0 || rentalDays <= 0)
-        return -1.0;
-
-    return round(
-        dailyRate * rentalDays * 100.0
-    ) / 100.0;
+    return 0;
 }
