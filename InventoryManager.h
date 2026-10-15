@@ -15,6 +15,7 @@ public:
     void addVehicle(Vehicle vehicle);
     void viewVehicleBrands() const;
     void searchVehicleStepByStep() const;
+    bool getVehicleById(int id, Vehicle& result) const;
     void removeVehicle(int id);
 };
 
