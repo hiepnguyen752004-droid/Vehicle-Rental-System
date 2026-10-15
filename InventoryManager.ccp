@@ -328,5 +328,19 @@ void InventoryManager::removeVehicle(int id)
         }
     }
 
+bool InventoryManager::getVehicleById(
+    int id,
+    Vehicle& result
+) const {
+    for (const Vehicle& vehicle : vehicles) {
+        if (vehicle.getVehicleId() == id) {
+            result = vehicle;
+            return true;
+        }
+    }
+
+    return false;
+}
+
     cout << "Vehicle not found." << endl;
 }
