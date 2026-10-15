@@ -103,7 +103,7 @@ int InventoryManager::searchVehicleStepByStep() const
     }
 
 
-    // BRAND FILTER
+
 
     set<string> brands;
 
@@ -147,7 +147,7 @@ int InventoryManager::searchVehicleStepByStep() const
     }
 
 
-    // MODEL FILTER
+
 
     set<string> models;
 
@@ -271,7 +271,7 @@ int InventoryManager::searchVehicleStepByStep() const
     }
 
 
-    // SELECT VEHICLE
+ 
 
     int selectedId;
 
