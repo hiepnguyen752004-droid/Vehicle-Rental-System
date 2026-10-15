@@ -1,232 +1,133 @@
-#include <iostream>
-
-#include "Vehicle.h"
-#include "Customer.h"
-#include "Reservation.h"
-#include "InventoryManager.h"
-#include "ReservationManager.h"
-
+#include "PaymentCalculator.h"
+#include <cctype>
+#include <cmath>
 using namespace std;
 
-int main()
-{
+namespace {
 
-    Vehicle vehicle1(
-        1,
-        "Toyota",
-        "Camry",
-        2025,
-        "Sedan",
-        60.00,
-        "Available"
-    );
-
-    Vehicle vehicle2(
-        2,
-        "Toyota",
-        "Corolla",
-        2025,
-        "Sedan",
-        50.00,
-        "Available"
-    );
-
-
-    Vehicle vehicle3(
-        3,
-        "Toyota",
-        "RAV4",
-        2024,
-        "SUV",
-        75.00,
-        "Available"
-    );
-
-
-    Vehicle vehicle4(
-        4,
-        "Honda",
-        "Civic",
-        2024,
-        "Sedan",
-        55.00,
-        "Available"
-    );
-
-
-    Vehicle vehicle5(
-        5,
-        "Honda",
-        "Accord",
-        2025,
-        "Sedan",
-        65.00,
-        "Available"
-    );
-
-
-    Vehicle vehicle6(
-        6,
-        "Ford",
-        "Explorer",
-        2025,
-        "SUV",
-        85.00,
-        "Available"
-    );
-
-
-    Vehicle vehicle7(
-        7,
-        "Chevrolet",
-        "Tahoe",
-        2024,
-        "SUV",
-        95.00,
-        "Available"
-    );
-
-
-    Vehicle vehicle8(
-        8,
-        "Toyota",
-        "Camry",
-        2024,
-        "Sedan",
-        55.00,
-        "Available"
-    );
-
-
-    Vehicle vehicle9(
-        9,
-        "Toyota",
-        "Camry",
-        2025,
-        "Sedan",
-        65.00,
-        "Available"
-    );
-
-
-    Vehicle vehicle10(
-        10,
-        "BMW",
-        "X5",
-        2025,
-        "SUV",
-        120.00,
-        "Available"
-    );
-
-
-  
-
-    InventoryManager inventory;
-
-
-    inventory.addVehicle(vehicle1);
-    inventory.addVehicle(vehicle2);
-    inventory.addVehicle(vehicle3);
-    inventory.addVehicle(vehicle4);
-    inventory.addVehicle(vehicle5);
-    inventory.addVehicle(vehicle6);
-    inventory.addVehicle(vehicle7);
-    inventory.addVehicle(vehicle8);
-    inventory.addVehicle(vehicle9);
-    inventory.addVehicle(vehicle10);
-
-
-    // CUSTOMER
-
-    Customer customer(
-        1,
-        "Austin Nguyen",
-        "Austin@email.com",
-        "password123",
-        "713-555-1234"
-    );
-
-
-    cout << endl;
-    cout << "CUSTOMER" << endl;
-
-    cout << "Customer: "
-        << customer.getName()
-        << endl;
-
-    cout << "Email: "
-        << customer.getEmail()
-        << endl;
-
-
-
-
-    cout << endl;
-
-    int selectedVehicleId =
-        inventory.searchVehicleStepByStep();
-
-
-    if (selectedVehicleId == -1)
-    {
-        cout << endl;
-        cout << "No vehicle selected."
-            << endl;
-        return 0;
+    bool isLeapYear(int year) {
+        return (year % 400 == 0) ||
+            (year % 4 == 0 && year % 100 != 0);
     }
 
+    int daysInMonth(int year, int month) {
+        const int monthDays[12] = {
+            31, 28, 31, 30, 31, 30,
+            31, 31, 30, 31, 30, 31
+        };
 
+        if (month == 2 && isLeapYear(year))
+            return 29;
 
-    ReservationManager reservationManager;
-    string startDate;
-    string endDate;
+        return monthDays[month - 1];
+    }
 
+    bool parseDate(
+        const string& date,
+        int& year,
+        int& month,
+        int& day
+    ) {
+        if (date.size() != 10 ||
+            date[4] != '-' ||
+            date[7] != '-') {
+            return false;
+        }
 
-    cout << endl;
-    cout << "CREATE RESERVATION" << endl;
+        for (int i = 0; i < 10; i++) {
+            if (i == 4 || i == 7)
+                continue;
 
+            if (!isdigit(
+                static_cast<unsigned char>(date[i])
+            ))
+                return false;
+        }
 
-    cout << "Enter rental start date "
-        << "(YYYY-MM-DD): ";
+        year = stoi(date.substr(0, 4));
+        month = stoi(date.substr(5, 2));
+        day = stoi(date.substr(8, 2));
 
-    cin >> startDate;
+        if (year < 1 || month < 1 || month > 12)
+            return false;
 
+        if (day < 1 ||
+            day > daysInMonth(year, month))
+            return false;
 
-    cout << "Enter rental end date "
-        << "(YYYY-MM-DD): ";
+        return true;
+    }
 
-    cin >> endDate;
+    int countDaysToDate(
+        int year,
+        int month,
+        int day
+    ) {
+        const int daysBeforeMonth[12] = {
+            0, 31, 59, 90, 120, 151,
+            181, 212, 243, 273, 304, 334
+        };
 
+        int completedYears = year - 1;
 
-    Reservation reservation1(
-        1,
-        customer.getCustomerId(),
-        selectedVehicleId,
+        int total = completedYears * 365
+            + completedYears / 4
+            - completedYears / 100
+            + completedYears / 400;
+
+        total += daysBeforeMonth[month - 1] + day;
+
+        if (month > 2 && isLeapYear(year))
+            total++;
+
+        return total;
+    }
+}
+
+int PaymentCalculator::calculateRentalDays(
+    const string& startDate,
+    const string& endDate
+) {
+    int startYear, startMonth, startDay;
+    int endYear, endMonth, endDay;
+
+    if (!parseDate(
         startDate,
-        endDate,
-        0.00,
-        "Confirmed"
+        startYear,
+        startMonth,
+        startDay
+    ) ||
+        !parseDate(
+            endDate,
+            endYear,
+            endMonth,
+            endDay
+        )) {
+        return -1;
+    }
+
+    int start = countDaysToDate(
+        startYear, startMonth, startDay
     );
 
+    int end = countDaysToDate(
+        endYear, endMonth, endDay
+    );
 
-    reservationManager.createReservation( reservation1 );
+    if (end < start)
+        return -1;
 
+    return end - start + 1;
+}
 
-    reservationManager.viewReservations();
+double PaymentCalculator::calculateTotalCost(
+    double dailyRate,
+    int rentalDays
+) {
+    if (dailyRate < 0 || rentalDays <= 0)
+        return -1.0;
 
-    int cancelId;
-
-    cout << endl;
-    cout << "Enter Reservation ID to cancel: ";
-    cin >> cancelId;
-
-    reservationManager.cancelReservation(cancelId);
-    cout << endl;
-    cout << "UPDATED RESERVATIONS" << endl;
-
-    reservationManager.viewReservations();
-
-
-    return 0;
+    return round(
+        dailyRate * rentalDays * 100.0
+    ) / 100.0;
 }
