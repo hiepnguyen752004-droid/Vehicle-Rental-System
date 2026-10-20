@@ -1,346 +1,306 @@
-#include <iostream>
-#include <set>
 #include "InventoryManager.h"
+
+#include <iostream>
+#include <iomanip>
+#include <limits>
+#include <vector>
+#include <set>
+#include <algorithm>
 
 using namespace std;
 
-void InventoryManager::addVehicle(Vehicle vehicle)
-{
-    vehicles.push_back(vehicle);
+
+
+void InventoryManager::addVehicle(Vehicle vehicle) {
+
+    int id = vehicle.getVehicleId();
+
+    if (vehicles.count(id) > 0) {
+        cout << "Vehicle ID already exists." << endl;
+        return;
+    }
+
+    vehicles.emplace(id, vehicle);
 }
 
 
-int InventoryManager::searchVehicleStepByStep() const
-{
-    if (vehicles.empty())
-    {
-        cout << "No vehicles in inventory." << endl;
-        return -1;
-    }
-
-
-    double lowestRate = vehicles[0].getDailyRate();
-    double highestRate = vehicles[0].getDailyRate();
-
-    double minRate;
-    double maxRate;
-
-    string make;
-    string model;
-    int year;
-
-
-    vector<Vehicle> rateResults;
-    vector<Vehicle> brandResults;
-    vector<Vehicle> modelResults;
-    vector<Vehicle> yearResults;
-
-
-    
-
-    for (const Vehicle& vehicle : vehicles)
-    {
-        if (vehicle.getDailyRate() < lowestRate)
-        {
-            lowestRate = vehicle.getDailyRate();
-        }
-
-        if (vehicle.getDailyRate() > highestRate)
-        {
-            highestRate = vehicle.getDailyRate();
-        }
-    }
-
-
-    cout << "VEHICLE RENTAL SEARCH" << endl;
- 
-
-    cout << endl;
-
-    cout << "Available daily rate range: $"
-        << lowestRate
-        << " - $"
-        << highestRate
-        << endl;
-
-
-   
-
-    cout << endl;
-
-    cout << "Enter minimum daily rate: $";
-    cin >> minRate;
-
-    cout << "Enter maximum daily rate: $";
-    cin >> maxRate;
-
-
-    if (minRate > maxRate)
-    {
-        cout << endl;
-        cout << "Invalid price range." << endl;
-
-        return -1;
-    }
-
-
-    for (const Vehicle& vehicle : vehicles)
-    {
-        if (vehicle.getDailyRate() >= minRate &&
-            vehicle.getDailyRate() <= maxRate)
-        {
-            rateResults.push_back(vehicle);
-        }
-    }
-
-
-    if (rateResults.empty())
-    {
-        cout << endl;
-        cout << "No vehicles found in that price range." << endl;
-
-        return -1;
-    }
-
-
-
-
-    set<string> brands;
-
-    for (const Vehicle& vehicle : rateResults)
-    {
-        brands.insert(vehicle.getMake());
-    }
-
-
-    cout << endl;
-    cout << "AVAILABLE BRANDS" << endl;
-    
-
-
-    for (string brand : brands)
-    {
-        cout << brand << endl;
-    }
-
-
-    cout << endl;
-    cout << "Enter vehicle brand: ";
-    cin >> make;
-
-
-    for (const Vehicle& vehicle : rateResults)
-    {
-        if (vehicle.getMake() == make)
-        {
-            brandResults.push_back(vehicle);
-        }
-    }
-
-
-    if (brandResults.empty())
-    {
-        cout << endl;
-        cout << "Vehicle brand not found." << endl;
-
-        return -1;
-    }
-
-
-
-
-    set<string> models;
-
-
-    for (const Vehicle& vehicle : brandResults)
-    {
-        models.insert(vehicle.getModel());
-    }
-
-
-    cout << endl;
-    cout << "AVAILABLE " << make << " MODELS" << endl;
-    
-
-
-    for (string vehicleModel : models)
-    {
-        cout << vehicleModel << endl;
-    }
-
-
-    cout << endl;
-    cout << "Enter vehicle model: ";
-    cin >> model;
-
-
-    for (const Vehicle& vehicle : brandResults)
-    {
-        if (vehicle.getModel() == model)
-        {
-            modelResults.push_back(vehicle);
-        }
-    }
-
-
-    if (modelResults.empty())
-    {
-        cout << endl;
-        cout << "Vehicle model not found." << endl;
-
-        return -1;
-    }
-
-
- 
-    set<int> years;
-
-
-    for (const Vehicle& vehicle : modelResults)
-    {
-        years.insert(vehicle.getYear());
-    }
-
-
-    cout << endl;
-    cout << "AVAILABLE YEARS" << endl;
-    
-
-
-    for (int vehicleYear : years)
-    {
-        cout << vehicleYear << endl;
-    }
-
-
-    cout << endl;
-    cout << "Enter vehicle year: ";
-    cin >> year;
-
-
-    for (const Vehicle& vehicle : modelResults)
-    {
-        if (vehicle.getYear() == year)
-        {
-            yearResults.push_back(vehicle);
-        }
-    }
-
-
-    if (yearResults.empty())
-    {
-        cout << endl;
-        cout << "Vehicle year not found." << endl;
-
-        return -1;
-    }
-
-
-    
-
-    cout << endl;
-    cout << "MATCHING VEHICLES" << endl;
-    
-
-
-    for (const Vehicle& vehicle : yearResults)
-    {
-        cout << "Vehicle ID: "
-            << vehicle.getVehicleId()
-            << endl;
-
-        cout << "Vehicle: "
-            << vehicle.getYear() << " "
-            << vehicle.getMake() << " "
-            << vehicle.getModel()
-            << endl;
-
-        cout << "Category: "
-            << vehicle.getCategory()
-            << endl;
-
-        cout << "Daily Rate: $"
-            << vehicle.getDailyRate()
-            << endl;
-
-        cout << "Status: "
-            << vehicle.getStatus()
-            << endl;
-
-        
-    }
-
-
- 
-
-    int selectedId;
-
-    cout << endl;
-    cout << "Enter Vehicle ID to select: ";
-    cin >> selectedId;
-
-
-    for (const Vehicle& vehicle : yearResults)
-    {
-        if (vehicle.getVehicleId() == selectedId)
-        {
-            if (vehicle.getStatus() != "Available")
-            {
-                cout << endl;
-                cout << "This vehicle is currently unavailable."
-                    << endl;
-
-                return -1;
-            }
-
-            cout << endl;
-
-            cout << "Vehicle selected: "
-                << vehicle.getYear() << " "
-                << vehicle.getMake() << " "
-                << vehicle.getModel()
-                << endl;
-
-            return selectedId;
-        }
-    }
-
-
-    cout << endl;
-    cout << "Invalid Vehicle ID." << endl;
-
-    return -1;
-}
-
-
-void InventoryManager::removeVehicle(int id)
-{
-    for (int i = 0; i < vehicles.size(); i++)
-    {
-        if (vehicles[i].getVehicleId() == id)
-        {
-            vehicles.erase(vehicles.begin() + i);
-
-            cout << "Vehicle removed from inventory."
-                << endl;
-
-            return;
-        }
-    }
 
 bool InventoryManager::getVehicleById(
     int id,
     Vehicle& result
 ) const {
-    for (const Vehicle& vehicle : vehicles) {
-        if (vehicle.getVehicleId() == id) {
-            result = vehicle;
-            return true;
+
+    if (vehicles.count(id) == 0) {
+        return false;
+    }
+
+    result = vehicles.at(id);
+
+    return true;
+}
+
+
+void InventoryManager::removeVehicle(int id) {
+
+    if (vehicles.erase(id) > 0) {
+        cout << "Vehicle removed successfully." << endl;
+    }
+    else {
+        cout << "Vehicle not found." << endl;
+    }
+}
+
+
+
+int InventoryManager::searchVehicleStepByStep() const {
+
+    if (vehicles.empty()) {
+        cout << "No vehicles in inventory." << endl;
+        return -1;
+    }
+
+
+
+    double lowestRate = numeric_limits<double>::max();
+    double highestRate = numeric_limits<double>::lowest();
+
+    for (const auto& entry : vehicles) {
+
+        const Vehicle& vehicle = entry.second;
+
+        if (vehicle.getDailyRate() < lowestRate) {
+            lowestRate = vehicle.getDailyRate();
+        }
+
+        if (vehicle.getDailyRate() > highestRate) {
+            highestRate = vehicle.getDailyRate();
         }
     }
 
-    return false;
-}
+    cout << fixed << setprecision(2);
 
-    cout << "Vehicle not found." << endl;
+    cout << "\nDaily rate range: $"
+         << lowestRate << " - $"
+         << highestRate << endl;
+
+
+
+    double minRate;
+    double maxRate;
+
+    cout << "Enter minimum daily rate: $";
+
+    if (!(cin >> minRate)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid price." << endl;
+        return -1;
+    }
+
+    cout << "Enter maximum daily rate: $";
+
+    if (!(cin >> maxRate)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid price." << endl;
+        return -1;
+    }
+
+    if (minRate < 0 || minRate > maxRate) {
+        cout << "Invalid price range." << endl;
+        return -1;
+    }
+
+
+    vector<Vehicle> rateResults;
+
+    for (const auto& entry : vehicles) {
+
+        const Vehicle& vehicle = entry.second;
+
+        if (vehicle.getDailyRate() >= minRate &&
+            vehicle.getDailyRate() <= maxRate) {
+
+            rateResults.push_back(vehicle);
+        }
+    }
+
+    if (rateResults.empty()) {
+        cout << "No vehicles match this price range." << endl;
+        return -1;
+    }
+
+
+    set<string> brands;
+
+    for (const Vehicle& vehicle : rateResults) {
+        brands.insert(vehicle.getMake());
+    }
+
+    cout << "\nAvailable brands:" << endl;
+
+    for (const string& brand : brands) {
+        cout << "- " << brand << endl;
+    }
+
+    string selectedBrand;
+
+    cout << "Enter brand: ";
+    cin >> selectedBrand;
+
+    vector<Vehicle> brandResults;
+
+    for (const Vehicle& vehicle : rateResults) {
+
+        if (vehicle.getMake() == selectedBrand) {
+            brandResults.push_back(vehicle);
+        }
+    }
+
+    if (brandResults.empty()) {
+        cout << "No matching brand." << endl;
+        return -1;
+    }
+
+
+    set<string> models;
+
+    for (const Vehicle& vehicle : brandResults) {
+        models.insert(vehicle.getModel());
+    }
+
+    cout << "\nAvailable models:" << endl;
+
+    for (const string& model : models) {
+        cout << "- " << model << endl;
+    }
+
+    string selectedModel;
+
+    cout << "Enter model: ";
+    cin >> selectedModel;
+
+    vector<Vehicle> modelResults;
+
+    for (const Vehicle& vehicle : brandResults) {
+
+        if (vehicle.getModel() == selectedModel) {
+            modelResults.push_back(vehicle);
+        }
+    }
+
+    if (modelResults.empty()) {
+        cout << "No matching model." << endl;
+        return -1;
+    }
+
+
+    set<int> years;
+
+    for (const Vehicle& vehicle : modelResults) {
+        years.insert(vehicle.getYear());
+    }
+
+    cout << "\nAvailable years:" << endl;
+
+    for (int year : years) {
+        cout << "- " << year << endl;
+    }
+
+    int selectedYear;
+
+    cout << "Enter year: ";
+
+    if (!(cin >> selectedYear)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid year." << endl;
+        return -1;
+    }
+
+    vector<Vehicle> yearResults;
+
+    for (const Vehicle& vehicle : modelResults) {
+
+        if (vehicle.getYear() == selectedYear) {
+            yearResults.push_back(vehicle);
+        }
+    }
+
+    if (yearResults.empty()) {
+        cout << "No matching year." << endl;
+        return -1;
+    }
+
+
+    sort(yearResults.begin(), yearResults.end(),
+        [](const Vehicle& a, const Vehicle& b) {
+            return a.getVehicleId() < b.getVehicleId();
+        }
+    );
+
+
+
+
+    for (const Vehicle& vehicle : yearResults) {
+
+        cout << "Vehicle ID: "
+             << vehicle.getVehicleId() << endl;
+
+        cout << "Vehicle: "
+             << vehicle.getYear() << " "
+             << vehicle.getMake() << " "
+             << vehicle.getModel() << endl;
+
+        cout << "Category: "
+             << vehicle.getCategory() << endl;
+
+        cout << "Daily Rate: $"
+             << vehicle.getDailyRate() << endl;
+
+        cout << "Status: "
+             << vehicle.getStatus() << endl;
+
+       
+    }
+
+
+    // using hash map
+
+    int selectedId;
+
+    cout << "Enter Vehicle ID to select: ";
+
+    if (!(cin >> selectedId)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid Vehicle ID." << endl;
+        return -1;
+    }
+
+    if (vehicles.count(selectedId) == 0) {
+        cout << "Vehicle ID not found." << endl;
+        return -1;
+    }
+
+    const Vehicle& selected = vehicles.at(selectedId);
+
+
+    if (selected.getDailyRate() < minRate ||
+        selected.getDailyRate() > maxRate ||
+        selected.getMake() != selectedBrand ||
+        selected.getModel() != selectedModel ||
+        selected.getYear() != selectedYear) {
+
+        cout << "Vehicle is not in the search results." << endl;
+        return -1;
+    }
+
+
+    if (selected.getStatus() != "Available") {
+        cout << "Vehicle is unavailable." << endl;
+        return -1;
+    }
+
+    return selectedId;
 }
