@@ -1,22 +1,20 @@
 #ifndef INVENTORYMANAGER_H
 #define INVENTORYMANAGER_H
 
-#include <vector>
+#include <unordered_map>
 #include "Vehicle.h"
 
 using namespace std;
 
-class InventoryManager
-{
+class InventoryManager {
 private:
-    vector<Vehicle> vehicles;
+    unordered_map<int, Vehicle> vehicles;
 
 public:
     void addVehicle(Vehicle vehicle);
-    void viewVehicleBrands() const;
-    void searchVehicleStepByStep() const;
     bool getVehicleById(int id, Vehicle& result) const;
     void removeVehicle(int id);
+    int searchVehicleStepByStep() const;
 };
 
 #endif
