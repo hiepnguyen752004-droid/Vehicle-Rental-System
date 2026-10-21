@@ -1,5 +1,9 @@
 #include "Vehicle.h"
 
+using namespace std;
+
+
+
 Vehicle::Vehicle()
 {
     vehicleId = 0;
@@ -11,14 +15,17 @@ Vehicle::Vehicle()
     status = "Available";
 }
 
+
+
 Vehicle::Vehicle(
     int id,
-    int vehicleYear,
     string vehicleMake,
     string vehicleModel,
+    int vehicleYear,
     string vehicleCategory,
+    double rate,
     string vehicleStatus
-    double rate,)
+)
 {
     vehicleId = id;
     make = vehicleMake;
@@ -29,10 +36,14 @@ Vehicle::Vehicle(
     status = vehicleStatus;
 }
 
+
+
+
 int Vehicle::getVehicleId() const
 {
     return vehicleId;
 }
+
 int Vehicle::getYear() const
 {
     return year;
@@ -63,15 +74,11 @@ double Vehicle::getDailyRate() const
     return dailyRate;
 }
 
+
+
 void Vehicle::setVehicleId(int id)
 {
     vehicleId = id;
-}
-
-
-void Vehicle::setYear(int vehicleYear)
-{
-    year = vehicleYear;
 }
 
 void Vehicle::setMake(string vehicleMake)
@@ -84,17 +91,22 @@ void Vehicle::setModel(string vehicleModel)
     model = vehicleModel;
 }
 
+void Vehicle::setYear(int vehicleYear)
+{
+    year = vehicleYear;
+}
+
 void Vehicle::setCategory(string vehicleCategory)
 {
     category = vehicleCategory;
 }
 
-void Vehicle::setStatus(string vehicleStatus)
-{
-    status = vehicleStatus;
-}
-
 void Vehicle::setDailyRate(double rate)
 {
     dailyRate = rate;
+}
+
+void Vehicle::setStatus(string vehicleStatus)
+{
+    status = vehicleStatus;
 }

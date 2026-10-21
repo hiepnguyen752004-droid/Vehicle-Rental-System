@@ -1,9 +1,10 @@
 #pragma once
 #ifndef VEHICLE_H
 #define VEHICLE_H
-#include <string>
 
+#include <string>
 using namespace std;
+
 class Vehicle
 {
 private:
@@ -20,14 +21,15 @@ public:
 
     Vehicle(
         int id,
-        int vehicleYear,
         string vehicleMake,
         string vehicleModel,
+        int vehicleYear,
         string vehicleCategory,
-        string vehicleStatus,
-        double rate
+        double rate,
+        string vehicleStatus
     );
 
+    // Getters
     int getVehicleId() const;
     int getYear() const;
     string getMake() const;
@@ -36,6 +38,7 @@ public:
     string getStatus() const;
     double getDailyRate() const;
 
+    // Setters
     void setVehicleId(int id);
     void setMake(string vehicleMake);
     void setModel(string vehicleModel);
