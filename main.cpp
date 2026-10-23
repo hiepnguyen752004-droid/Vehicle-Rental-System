@@ -1,7 +1,9 @@
+
 #include <iostream>
 #include <iomanip>
 #include <limits>
 #include <cctype>
+#include <string>
 
 #include "Vehicle.h"
 #include "Customer.h"
@@ -9,62 +11,44 @@
 #include "InventoryManager.h"
 #include "ReservationManager.h"
 #include "PaymentCalculator.h"
+#include "VehicleRepository.h"
 
 using namespace std;
 
-int main() {
-
+int main()
+{
     
 
     InventoryManager inventory;
 
+
     
 
-    inventory.addVehicle(
-        Vehicle( 1, "Toyota", "Camry", 2025,"Sedan", 60, "Available")
+    VehicleRepository vehicleRepository;
+
+
+    
+
+    string mysqlPassword;
+
+    cout << "Enter MySQL password: ";
+    getline(cin, mysqlPassword);
+
+    bool loaded = vehicleRepository.loadVehicles(
+        inventory,
+        mysqlPassword
     );
 
-    inventory.addVehicle(
-        Vehicle(2, "Toyota", "Corolla", 2025,"Sedan", 50, "Available")
-    );
+    if (!loaded)
+    {
+        cout << "Unable to load vehicles from MySQL."
+            << endl;
 
-    inventory.addVehicle(
-        Vehicle( 3, "Toyota", "RAV4", 2024, "SUV", 75, "Available"
-        )
-    );
+        return 1;
+    }
 
-    inventory.addVehicle(
-        Vehicle( 4, "Honda", "Civic", 2024, "Sedan", 55, "Available")
-    );
 
-    inventory.addVehicle(
-        Vehicle( 5, "Honda", "Accord", 2025,"Sedan", 65, "Available")
-    );
-
-    inventory.addVehicle(
-        Vehicle( 6, "Ford", "Explorer", 2025,"SUV", 85, "Available"
-        )
-    );
-
-    inventory.addVehicle(
-        Vehicle( 7, "Chevrolet", "Tahoe", 2024,"SUV", 95, "Available"
-        )
-    );
-
-    inventory.addVehicle(
-        Vehicle(8, "Toyota", "Camry", 2024,"Sedan", 55, "Available"
-        )
-    );
-
-    inventory.addVehicle(
-        Vehicle( 9, "Toyota", "Camry", 2025,"Sedan", 65, "Available")
-    );
-
-    inventory.addVehicle(
-        Vehicle(10, "BMW", "X5", 2025,"SUV", 120, "Available")
-    );
-
-   
+    
 
     Customer customer(
         1,
@@ -74,7 +58,8 @@ int main() {
         "000-000-0000"
     );
 
-  
+
+    
 
     ReservationManager reservationManager;
 
@@ -82,18 +67,17 @@ int main() {
 
     cout << fixed << setprecision(2);
 
-    cout << "Vehicle Rental Management System\n";
+    cout << "\nVehicle Rental Management System\n";
 
     cout << "Customer: "
         << customer.getName() << "\n";
 
-  
 
-    while (true) {
+    
 
-        
-
-        cout << "1. Search and reserve vehicle\n";
+    while (true)
+    {
+        cout << "\n1. Search and reserve vehicle\n";
         cout << "2. View reservations\n";
         cout << "3. Cancel reservation\n";
         cout << "4. Exit\n";
@@ -102,9 +86,10 @@ int main() {
 
         int option;
 
-        if (!(cin >> option)) {
-
-            if (cin.eof()) {
+        if (!(cin >> option))
+        {
+            if (cin.eof())
+            {
                 break;
             }
 
@@ -120,32 +105,36 @@ int main() {
             continue;
         }
 
-       
 
-        if (option == 1) {
+        
 
+        if (option == 1)
+        {
             int selectedVehicleId =
                 inventory.searchVehicleStepByStep();
 
-            if (selectedVehicleId == -1) {
+            if (selectedVehicleId == -1)
+            {
                 continue;
             }
 
-         
+
+           
 
             Vehicle selectedVehicle;
 
             if (!inventory.getVehicleById(
                 selectedVehicleId,
                 selectedVehicle
-            )) {
-
+            ))
+            {
                 cout << "Selected vehicle not found.\n";
 
                 continue;
             }
 
-        
+
+            
 
             string startDate;
             string endDate;
@@ -156,7 +145,8 @@ int main() {
             cout << "Enter end date (YYYY-MM-DD): ";
             cin >> endDate;
 
-           
+
+            
 
             int rentalDays =
                 PaymentCalculator::calculateRentalDays(
@@ -164,8 +154,8 @@ int main() {
                     endDate
                 );
 
-            if (rentalDays == -1) {
-
+            if (rentalDays == -1)
+            {
                 cout << "Invalid date range. "
                     << "Use YYYY-MM-DD, "
                     << "with end >= start.\n";
@@ -173,14 +163,15 @@ int main() {
                 continue;
             }
 
+
             
 
             if (!reservationManager.checkAvailability(
                 selectedVehicleId,
                 startDate,
                 endDate
-            )) {
-
+            ))
+            {
                 cout << "Booking conflict: Vehicle "
                     << selectedVehicleId
                     << " is already reserved "
@@ -189,7 +180,8 @@ int main() {
                 continue;
             }
 
-         
+
+            
 
             double totalCost =
                 PaymentCalculator::calculateTotalCost(
@@ -197,25 +189,37 @@ int main() {
                     rentalDays
                 );
 
-            if (totalCost < 0) {
-
+            if (totalCost < 0)
+            {
                 cout << "Unable to calculate "
                     << "the rental cost.\n";
 
                 continue;
             }
 
-        
 
-            
+           
+
+            cout << "Vehicle ID: "
+                << selectedVehicle.getVehicleId()
+                << "\n";
 
             cout << "Vehicle: "
                 << selectedVehicle.getYear() << " "
                 << selectedVehicle.getMake() << " "
                 << selectedVehicle.getModel() << "\n";
 
+            cout << "Category: "
+                << selectedVehicle.getCategory() << "\n";
+
             cout << "Daily rate: $"
                 << selectedVehicle.getDailyRate() << "\n";
+
+            cout << "Start date: "
+                << startDate << "\n";
+
+            cout << "End date: "
+                << endDate << "\n";
 
             cout << "Rental days: "
                 << rentalDays << "\n";
@@ -224,20 +228,22 @@ int main() {
                 << totalCost << "\n";
 
 
+            
 
             char confirm;
 
-            cout << "Confirm reservation? (Y/N): ";
+            cout << "\nConfirm reservation? (Y/N): ";
             cin >> confirm;
 
             if (toupper(
                 static_cast<unsigned char>(confirm)
-            ) != 'Y') {
-
+            ) != 'Y')
+            {
                 cout << "Reservation not created.\n";
 
                 continue;
             }
+
 
            
 
@@ -251,12 +257,13 @@ int main() {
                 "Confirmed"
             );
 
+
             
 
             if (reservationManager.createReservation(
                 reservation
-            )) {
-
+            ))
+            {
                 cout << "Your reservation ID is "
                     << nextReservationId
                     << ".\n";
@@ -265,23 +272,27 @@ int main() {
             }
         }
 
+
         
 
-        else if (option == 2) {
-
+        else if (option == 2)
+        {
             reservationManager.viewReservations();
         }
 
 
-        else if (option == 3) {
+        
 
+        else if (option == 3)
+        {
             int reservationId;
 
             cout << "Enter Reservation ID to cancel: ";
 
-            if (!(cin >> reservationId)) {
-
-                if (cin.eof()) {
+            if (!(cin >> reservationId))
+            {
+                if (cin.eof())
+                {
                     break;
                 }
 
@@ -302,17 +313,21 @@ int main() {
             );
         }
 
-       
 
-        else if (option == 4) {
+        
 
-            cout << "end";
+        else if (option == 4)
+        {
+            cout << "Thank you for using the system!\n";
 
             break;
         }
 
-        else {
 
+        
+
+        else
+        {
             cout << "Please choose option "
                 << "1, 2, 3, or 4.\n";
         }

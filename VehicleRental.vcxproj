@@ -49,10 +49,13 @@
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\MySQL Connector C++ 26.10\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\MySQL Connector C++ 26.10\lib64\vs14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -63,18 +66,23 @@
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\MySQL Connector C++ 26.10\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\MySQL Connector C++ 26.10\lib64\vs14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DatabaseConnection.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ReservationManager.cpp" />
     <ClCompile Include="Vehicle.cpp" />
     <ClCompile Include="Reservation.cpp" />
     <ClCompile Include="InventoryManager.cpp" />
+    <ClCompile Include="VehicleRepository.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vehicle.h" />
@@ -83,6 +91,7 @@
     <ClInclude Include="InventoryManager.h" />
     <ClInclude Include="ReservationManager.h" />
     <ClInclude Include="PaymentCalculator.h" />
+    <ClInclude Include="VehicleRepository.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Customer.cpp" />
