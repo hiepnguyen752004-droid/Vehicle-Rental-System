@@ -108,7 +108,7 @@ void ManagerDashboard::listVehicles()
         )
     );
 
-    cout << "\n===== VEHICLE INVENTORY =====\n";
+    
     cout << fixed << setprecision(2);
 
     while ((*result).next())
@@ -132,7 +132,7 @@ void ManagerDashboard::listVehicles()
 }
 
 
-// Add a vehicle
+
 
 void ManagerDashboard::addVehicle()
 {
@@ -192,7 +192,7 @@ void ManagerDashboard::addVehicle()
 }
 
 
-// Update daily rental rate
+
 
 void ManagerDashboard::changeDailyRate()
 {
@@ -236,7 +236,7 @@ void ManagerDashboard::changeDailyRate()
 }
 
 
-// Change vehicle status
+
 
 void ManagerDashboard::changeVehicleStatus()
 {
@@ -285,14 +285,14 @@ void ManagerDashboard::changeVehicleStatus()
 }
 
 
-// Manager dashboard main menu
+
 
 void ManagerDashboard::run(
     ReservationManager& reservationManager)
 {
     while (true)
     {
-        cout << "\n===== MANAGER DASHBOARD =====\n";
+        
 
         cout << "1. View all vehicles\n";
         cout << "2. Add vehicle\n";

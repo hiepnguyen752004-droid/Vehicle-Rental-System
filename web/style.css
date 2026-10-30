@@ -1,0 +1,232 @@
+
+
+/* GENERAL */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #222;
+}
+
+
+/* HEADER */
+
+header {
+    background-color: #14243a;
+    color: white;
+    padding: 22px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+
+/* NAVIGATION */
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav a:hover {
+    color: #72aaff;
+}
+
+
+/* HERO SECTION WITH BACKGROUND IMAGE */
+
+.hero {
+    background-color: #14243a;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.50),
+            rgba(0, 0, 0, 0.50)
+        ),
+        url("images/car-hero.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    min-height: 480px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 80px 25px;
+}
+
+
+/* TEXT ON TOP OF BACKGROUND IMAGE */
+
+.hero-content {
+    max-width: 800px;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h2 {
+    font-size: 48px;
+    color: white;
+    font-weight: bold;
+    line-height: 1.2;
+
+    margin-top: 0;
+    margin-bottom: 22px;
+}
+
+.hero-content p {
+    font-size: 20px;
+    color: white;
+    line-height: 1.6;
+
+    margin-bottom: 28px;
+}
+
+
+/* BROWSE VEHICLES BUTTON */
+
+.hero-content button {
+    background-color: #1769d2;
+    color: white;
+
+    padding: 16px 32px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.hero-content button:hover {
+    background-color: #104b98;
+}
+
+
+/* AVAILABLE VEHICLES */
+
+#vehicles {
+    padding: 65px 45px;
+    max-width: 1350px;
+    margin: 0 auto;
+    min-height: 230px;
+}
+
+#vehicles h2 {
+    font-size: 28px;
+    color: #14243a;
+}
+
+#vehicles p {
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.vehicle-container {
+    margin-top: 25px;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+
+/* ABOUT SECTION */
+
+#about {
+    padding: 65px 45px;
+    background-color: white;
+}
+
+#about h2 {
+    font-size: 28px;
+    color: #14243a;
+}
+
+#about p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #444;
+    max-width: 900px;
+}
+
+
+/* FOOTER */
+
+footer {
+    background-color: #14243a;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+
+
+
+@media (max-width: 800px) {
+
+    header {
+        padding: 20px;
+    }
+
+    nav {
+        gap: 15px;
+    }
+
+    .hero {
+        min-height: 400px;
+        padding: 60px 20px;
+    }
+
+    .hero-content h2 {
+        font-size: 34px;
+    }
+
+    .hero-content p {
+        font-size: 17px;
+    }
+
+    #vehicles,
+    #about {
+        padding: 40px 20px;
+    }
+}
