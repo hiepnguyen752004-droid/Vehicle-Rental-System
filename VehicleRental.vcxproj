@@ -76,15 +76,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CustomerRepository.cpp" />
     <ClCompile Include="DatabaseConnection.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ManagerDashboard.cpp" />
+    <ClCompile Include="PasswordHasher.cpp" />
     <ClCompile Include="ReservationManager.cpp" />
+    <ClCompile Include="ReservationRepository.cpp" />
     <ClCompile Include="Vehicle.cpp" />
     <ClCompile Include="Reservation.cpp" />
     <ClCompile Include="InventoryManager.cpp" />
     <ClCompile Include="VehicleRepository.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CustomerRepository.h" />
+    <ClInclude Include="ManagerDashboard.h" />
+    <ClInclude Include="PasswordHasher.h" />
+    <ClInclude Include="ReservationRepository.h" />
     <ClInclude Include="Vehicle.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Reservation.h" />

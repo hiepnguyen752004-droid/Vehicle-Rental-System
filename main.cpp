@@ -1,336 +1,464 @@
 
-#include <iostream>
-#include <iomanip>
-#include <limits>
+
+
+#define NOMINMAX
+#include <windows.h>
+
+#include <algorithm>
 #include <cctype>
+#include <exception>
+#include <iomanip>
+#include <iostream>
+#include <limits>
 #include <string>
 
-#include "Vehicle.h"
-#include "Customer.h"
-#include "Reservation.h"
 #include "InventoryManager.h"
-#include "ReservationManager.h"
-#include "PaymentCalculator.h"
 #include "VehicleRepository.h"
+#include "ReservationManager.h"
+#include "ReservationRepository.h"
+#include "PaymentCalculator.h"
+#include "CustomerRepository.h"
+#include "ManagerDashboard.h"
 
 using namespace std;
 
-int main()
+namespace
 {
-    
-
-    InventoryManager inventory;
-
-
-    
-
-    VehicleRepository vehicleRepository;
-
-
-    
-
-    string mysqlPassword;
-
-    cout << "Enter MySQL password: ";
-    getline(cin, mysqlPassword);
-
-    bool loaded = vehicleRepository.loadVehicles(
-        inventory,
-        mysqlPassword
-    );
-
-    if (!loaded)
+    string askText(const string& question)
     {
-        cout << "Unable to load vehicles from MySQL."
-            << endl;
+        cout << question;
 
-        return 1;
+        string answer;
+        getline(cin >> ws, answer);
+
+        return answer;
     }
 
 
     
 
-    Customer customer(
-        1,
-        "Austin Customer",
-        "Austin@example.com",
-        "demo-only",
-        "000-000-0000"
-    );
-
-
-    
-
-    ReservationManager reservationManager;
-
-    int nextReservationId = 1;
-
-    cout << fixed << setprecision(2);
-
-    cout << "\nVehicle Rental Management System\n";
-
-    cout << "Customer: "
-        << customer.getName() << "\n";
-
-
-    
-
-    while (true)
+    string askPassword(const string& question)
     {
-        cout << "\n1. Search and reserve vehicle\n";
-        cout << "2. View reservations\n";
-        cout << "3. Cancel reservation\n";
-        cout << "4. Exit\n";
+        cout << question;
 
-        cout << "Enter option: ";
+        HANDLE inputHandle =
+            GetStdHandle(STD_INPUT_HANDLE);
 
-        int option;
+        DWORD originalMode = 0;
 
-        if (!(cin >> option))
+        bool hasConsole =
+            inputHandle != INVALID_HANDLE_VALUE &&
+            GetConsoleMode(
+                inputHandle, &originalMode
+            ) != 0;
+
+        if (hasConsole)
         {
-            if (cin.eof())
-            {
-                break;
-            }
-
-            cin.clear();
-
-            cin.ignore(
-                numeric_limits<streamsize>::max(),
-                '\n'
+            SetConsoleMode(
+                inputHandle,
+                originalMode & ~ENABLE_ECHO_INPUT
             );
-
-            cout << "Please enter a number from 1 to 4.\n";
-
-            continue;
         }
 
+        string password;
+        getline(cin >> ws, password);
 
-        
-
-        if (option == 1)
+        if (hasConsole)
         {
-            int selectedVehicleId =
-                inventory.searchVehicleStepByStep();
-
-            if (selectedVehicleId == -1)
-            {
-                continue;
-            }
-
-
-           
-
-            Vehicle selectedVehicle;
-
-            if (!inventory.getVehicleById(
-                selectedVehicleId,
-                selectedVehicle
-            ))
-            {
-                cout << "Selected vehicle not found.\n";
-
-                continue;
-            }
-
-
-            
-
-            string startDate;
-            string endDate;
-
-            cout << "Enter start date (YYYY-MM-DD): ";
-            cin >> startDate;
-
-            cout << "Enter end date (YYYY-MM-DD): ";
-            cin >> endDate;
-
-
-            
-
-            int rentalDays =
-                PaymentCalculator::calculateRentalDays(
-                    startDate,
-                    endDate
-                );
-
-            if (rentalDays == -1)
-            {
-                cout << "Invalid date range. "
-                    << "Use YYYY-MM-DD, "
-                    << "with end >= start.\n";
-
-                continue;
-            }
-
-
-            
-
-            if (!reservationManager.checkAvailability(
-                selectedVehicleId,
-                startDate,
-                endDate
-            ))
-            {
-                cout << "Booking conflict: Vehicle "
-                    << selectedVehicleId
-                    << " is already reserved "
-                    << "for these dates.\n";
-
-                continue;
-            }
-
-
-            
-
-            double totalCost =
-                PaymentCalculator::calculateTotalCost(
-                    selectedVehicle.getDailyRate(),
-                    rentalDays
-                );
-
-            if (totalCost < 0)
-            {
-                cout << "Unable to calculate "
-                    << "the rental cost.\n";
-
-                continue;
-            }
-
-
-           
-
-            cout << "Vehicle ID: "
-                << selectedVehicle.getVehicleId()
-                << "\n";
-
-            cout << "Vehicle: "
-                << selectedVehicle.getYear() << " "
-                << selectedVehicle.getMake() << " "
-                << selectedVehicle.getModel() << "\n";
-
-            cout << "Category: "
-                << selectedVehicle.getCategory() << "\n";
-
-            cout << "Daily rate: $"
-                << selectedVehicle.getDailyRate() << "\n";
-
-            cout << "Start date: "
-                << startDate << "\n";
-
-            cout << "End date: "
-                << endDate << "\n";
-
-            cout << "Rental days: "
-                << rentalDays << "\n";
-
-            cout << "Total cost: $"
-                << totalCost << "\n";
-
-
-            
-
-            char confirm;
-
-            cout << "\nConfirm reservation? (Y/N): ";
-            cin >> confirm;
-
-            if (toupper(
-                static_cast<unsigned char>(confirm)
-            ) != 'Y')
-            {
-                cout << "Reservation not created.\n";
-
-                continue;
-            }
-
-
-           
-
-            Reservation reservation(
-                nextReservationId,
-                customer.getCustomerId(),
-                selectedVehicleId,
-                startDate,
-                endDate,
-                totalCost,
-                "Confirmed"
+            SetConsoleMode(
+                inputHandle,
+                originalMode
             );
+        }
+
+        cout << '\n';
+
+        return password;
+    }
+
+
+    bool askInt(
+        const string& question,
+        int& value)
+    {
+        cout << question;
+
+        if (cin >> value)
+            return true;
+
+        cin.clear();
+
+        cin.ignore(
+            numeric_limits<streamsize>::max(),
+            '\n'
+        );
+
+        cout << "Invalid number.\n";
+
+        return false;
+    }
+
+
+    
+
+    void customerMenu(
+        const LoggedInCustomer& account,
+        const string& mysqlPassword,
+        VehicleRepository& vehicleRepository,
+        ReservationManager& reservationManager)
+    {
+        cout << "\nWelcome, "
+            << account.name << "!\n";
+
+        while (true)
+        {
+            
+
+            cout << "1. Search and reserve vehicle\n";
+            cout << "2. View my reservations\n";
+            cout << "3. Cancel my reservation\n";
+            cout << "4. Log out\n";
+
+            int option;
+
+            if (!askInt("Enter option: ", option))
+                continue;
+
+            if (option == 4)
+                return;
 
 
             
 
-            if (reservationManager.createReservation(
-                reservation
-            ))
+            if (option == 1)
             {
-                cout << "Your reservation ID is "
-                    << nextReservationId
-                    << ".\n";
+                InventoryManager inventory;
 
-                nextReservationId++;
-            }
-        }
-
-
-        
-
-        else if (option == 2)
-        {
-            reservationManager.viewReservations();
-        }
-
-
-        
-
-        else if (option == 3)
-        {
-            int reservationId;
-
-            cout << "Enter Reservation ID to cancel: ";
-
-            if (!(cin >> reservationId))
-            {
-                if (cin.eof())
+                if (!vehicleRepository.loadVehicles(
+                    inventory, mysqlPassword))
                 {
-                    break;
+                    cout << "Unable to load vehicles.\n";
+                    continue;
                 }
 
-                cin.clear();
+                int vehicleId =
+                    inventory.searchVehicleStepByStep();
 
-                cin.ignore(
-                    numeric_limits<streamsize>::max(),
-                    '\n'
+                if (vehicleId == -1)
+                    continue;
+
+                Vehicle selectedVehicle;
+
+                if (!inventory.getVehicleById(
+                    vehicleId,
+                    selectedVehicle))
+                {
+                    cout << "Vehicle not found.\n";
+                    continue;
+                }
+
+                string startDate =
+                    askText("Start date (YYYY-MM-DD): ");
+
+                string endDate =
+                    askText("End date (YYYY-MM-DD): ");
+
+                int rentalDays =
+                    PaymentCalculator::calculateRentalDays(
+                        startDate,
+                        endDate
+                    );
+
+                if (rentalDays <= 0)
+                {
+                    cout << "Invalid rental dates.\n";
+                    continue;
+                }
+
+                if (!reservationManager.checkAvailability(
+                    vehicleId,
+                    startDate,
+                    endDate))
+                {
+                    cout << "This vehicle is unavailable "
+                        << "for these dates.\n";
+
+                    continue;
+                }
+
+                double cost =
+                    PaymentCalculator::calculateTotalCost(
+                        selectedVehicle.getDailyRate(),
+                        rentalDays
+                    );
+
+                if (cost < 0)
+                {
+                    cout << "Cannot calculate "
+                        << "the rental cost.\n";
+
+                    continue;
+                }
+
+                cout << fixed << setprecision(2);
+
+                
+
+                cout << selectedVehicle.getYear() << " "
+                    << selectedVehicle.getMake() << " "
+                    << selectedVehicle.getModel() << '\n';
+
+                cout << "Vehicle ID: "
+                    << vehicleId << '\n';
+
+                cout << "Rate: $"
+                    << selectedVehicle.getDailyRate()
+                    << " per day\n";
+
+                cout << "Dates: "
+                    << startDate << " through "
+                    << endDate << '\n';
+
+                cout << "Days: "
+                    << rentalDays << '\n';
+
+                cout << "Total: $"
+                    << cost << '\n';
+
+                string confirm =
+                    askText("Confirm reservation? (Y/N): ");
+
+                if (confirm.empty() ||
+                    toupper(
+                        static_cast<unsigned char>(
+                            confirm[0]
+                            )
+                    ) != 'Y')
+                {
+                    cout << "Reservation not created.\n";
+                    continue;
+                }
+
+                Reservation reservation(
+                    0,
+                    account.customerId,
+                    vehicleId,
+                    startDate,
+                    endDate,
+                    cost,
+                    "Confirmed"
                 );
 
-                cout << "Invalid Reservation ID.\n";
-
-                continue;
+                if (reservationManager.createReservation(
+                    reservation))
+                {
+                    cout << "Your reservation ID is "
+                        << reservation.getReservationId()
+                        << ".\n";
+                }
             }
 
-            reservationManager.cancelReservation(
-                reservationId
-            );
+
+            
+
+            else if (option == 2)
+            {
+                reservationManager.viewCustomerReservations(
+                    account.customerId
+                );
+            }
+
+
+            
+
+            else if (option == 3)
+            {
+                int reservationId;
+
+                if (askInt(
+                    "Your reservation ID to cancel: ",
+                    reservationId))
+                {
+                    reservationManager.cancelCustomerReservation(
+                        reservationId,
+                        account.customerId
+                    );
+                }
+            }
+
+            else
+            {
+                cout << "Choose 1, 2, 3, or 4.\n";
+            }
         }
+    }
+}
+
+
+int main()
+{
+    try
+    {
+        
+
+        string mysqlPassword =
+            askPassword("Enter vehicle_app MySQL password: ");
+
+        CustomerRepository customerRepository(
+            mysqlPassword
+        );
+
+        VehicleRepository vehicleRepository;
+
+        ReservationRepository reservationRepository(
+            mysqlPassword
+        );
+
+        ReservationManager reservationManager(
+            reservationRepository
+        );
+
+        ManagerDashboard managerDashboard(
+            mysqlPassword
+        );
+
+        cout << "Connected to vehicle_rental_db.\n";
 
 
         
 
-        else if (option == 4)
+        while (true)
         {
-            cout << "Thank you for using the system!\n";
+            
 
-            break;
+            cout << "1. Register customer account\n";
+            cout << "2. Log in\n";
+            cout << "3. Exit\n";
+
+            int option;
+
+            if (!askInt("Enter option: ", option))
+                continue;
+
+            if (option == 3)
+                break;
+
+
+            
+
+            if (option == 1)
+            {
+                string name =
+                    askText("Full name: ");
+
+                string email =
+                    askText("Email: ");
+
+                string phone =
+                    askText("Phone: ");
+
+                string password =
+                    askPassword(
+                        "Create password (at least 12 characters): "
+                    );
+
+                string confirm =
+                    askPassword("Confirm password: ");
+
+                if (password != confirm)
+                {
+                    cout << "Passwords do not match.\n";
+                }
+                else if (customerRepository.registerCustomer(
+                    name,
+                    email,
+                    password,
+                    phone))
+                {
+                    cout << "Account registered. "
+                        << "You can now log in.\n";
+                }
+
+                fill(
+                    password.begin(),
+                    password.end(),
+                    '\0'
+                );
+
+                fill(
+                    confirm.begin(),
+                    confirm.end(),
+                    '\0'
+                );
+            }
+
+
+            // Login
+
+            else if (option == 2)
+            {
+                string email =
+                    askText("Email: ");
+
+                string password =
+                    askPassword("Password: ");
+
+                LoggedInCustomer account;
+
+                bool authenticated =
+                    customerRepository.login(
+                        email,
+                        password,
+                        account
+                    );
+
+                fill(
+                    password.begin(),
+                    password.end(),
+                    '\0'
+                );
+
+                if (!authenticated)
+                {
+                    cout << "Invalid email or password.\n";
+                    continue;
+                }
+
+                if (account.role == "Manager")
+                {
+                    cout << "Manager login successful.\n";
+
+                    managerDashboard.run(
+                        reservationManager
+                    );
+                }
+                else if (account.role == "Customer")
+                {
+                    customerMenu(
+                        account,
+                        mysqlPassword,
+                        vehicleRepository,
+                        reservationManager
+                    );
+                }
+                else
+                {
+                    cout << "Account has an unrecognized role.\n";
+                }
+            }
+            else
+            {
+                cout << "Choose 1, 2, or 3.\n";
+            }
         }
+    }
+    catch (const exception& error)
+    {
+        cout << "Application error: "
+            << error.what()
+            << '\n';
 
-
-        
-
-        else
-        {
-            cout << "Please choose option "
-                << "1, 2, 3, or 4.\n";
-        }
+        return 1;
     }
 
     return 0;

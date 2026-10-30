@@ -20,7 +20,7 @@ bool VehicleRepository::loadVehicles(
 {
     try
     {
-        // STEP 1: Connect to MySQL
+        
 
         sql::Driver* driver =
             sql::mysql::get_driver_instance();
@@ -35,7 +35,7 @@ bool VehicleRepository::loadVehicles(
 
         (*connection).setSchema("vehicle_rental_db");
 
-        cout << "Connected to MySQL successfully!"
+        cout << "Connected to MySQL successfully"
             << endl;
 
 

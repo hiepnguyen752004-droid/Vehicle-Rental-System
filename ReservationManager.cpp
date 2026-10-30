@@ -1,7 +1,72 @@
-#include <iostream>
+
 #include "ReservationManager.h"
+#include "ReservationRepository.h"
+#include "PaymentCalculator.h"
+
+#include <iostream>
+#include <exception>
+#include <vector>
 
 using namespace std;
+
+namespace
+{
+    void printReservations(
+        const vector<Reservation>& reservations)
+    {
+        if (reservations.empty())
+        {
+            cout << "No reservations found.\n";
+            return;
+        }
+
+        
+
+        for (const Reservation& reservation : reservations)
+        {
+            cout << "Reservation ID: "
+                << reservation.getReservationId()
+                << '\n';
+
+            cout << "Customer ID: "
+                << reservation.getCustomerId()
+                << '\n';
+
+            cout << "Vehicle ID: "
+                << reservation.getVehicleId()
+                << '\n';
+
+            cout << "Start Date: "
+                << reservation.getStartDate()
+                << '\n';
+
+            cout << "End Date: "
+                << reservation.getEndDate()
+                << '\n';
+
+            cout << "Total Cost: $"
+                << reservation.getTotalCost()
+                << '\n';
+
+            cout << "Status: "
+                << reservation.getStatus()
+                << '\n';
+
+            
+        }
+    }
+}
+
+
+
+
+ReservationManager::ReservationManager(
+    ReservationRepository& repo)
+    : repository(repo)
+{
+}
+
+
 
 
 bool ReservationManager::checkAvailability(
@@ -9,141 +74,160 @@ bool ReservationManager::checkAvailability(
     string startDate,
     string endDate) const
 {
-    for (const Reservation& reservation : reservations)
+    if (PaymentCalculator::calculateRentalDays(
+        startDate, endDate) <= 0)
     {
-        if (reservation.getVehicleId() == vehicleId && reservation.getStatus() != "Cancelled")
-        {
-            if (startDate <= reservation.getEndDate() &&
-                endDate >= reservation.getStartDate())
-            {
-                return false;
-            }
-        }
+        cout << "Invalid rental dates.\n";
+        return false;
     }
 
-    return true;
+    try
+    {
+        return repository.checkAvailability(
+            vehicleId,
+            startDate,
+            endDate
+        );
+    }
+    catch (const exception& error)
+    {
+        cout << "Availability check failed: "
+            << error.what()
+            << '\n';
+
+        return false;
+    }
 }
+
+
 
 
 bool ReservationManager::createReservation(
-    Reservation reservation)
+    Reservation& reservation)
 {
-    if (reservation.getStartDate() >
-        reservation.getEndDate())
-    {
-        cout << endl;
-        cout << "Invalid rental dates." << endl;
-        cout << "Start date cannot be after end date."
-            << endl;
-
-        return false;
-    }
-
-
-    bool available = checkAvailability(
-        reservation.getVehicleId(),
+    if (PaymentCalculator::calculateRentalDays(
         reservation.getStartDate(),
-        reservation.getEndDate()
-    );
-
-
-    if (available == false)
+        reservation.getEndDate()) <= 0)
     {
-        cout << endl;
-
-        cout << "Reservation cannot be created."
-            << endl;
-
-        cout << "Vehicle is already reserved "
-            << "during these dates."
-            << endl;
-
+        cout << "Invalid rental dates.\n";
         return false;
     }
 
+    try
+    {
+        if (repository.createReservation(reservation))
+        {
+            cout << "Reservation saved to MySQL.\n";
+            return true;
+        }
 
-    reservations.push_back(reservation);
+        cout << "Reservation not created "
+            << "(unavailable or conflict).\n";
 
+        return false;
+    }
+    catch (const exception& error)
+    {
+        cout << "Reservation error: "
+            << error.what()
+            << '\n';
 
-    cout << endl;
-    cout << "Reservation created successfully."
-        << endl;
-
-
-    return true;
+        return false;
+    }
 }
+
+
 
 
 void ReservationManager::cancelReservation(
     int reservationId)
 {
-    for (Reservation& reservation : reservations)
+    try
     {
-        if (reservation.getReservationId() ==
-            reservationId)
+        if (repository.cancelReservation(reservationId))
         {
-            reservation.setStatus("Cancelled");
-
-            cout << endl;
-
-            cout << "Reservation cancelled successfully."
-                << endl;
-
-            return;
+            cout << "Reservation cancelled.\n";
+        }
+        else
+        {
+            cout << "Reservation not found "
+                << "or already cancelled.\n";
         }
     }
-
-
-    cout << endl;
-    cout << "Reservation not found." << endl;
+    catch (const exception& error)
+    {
+        cout << "Cancellation error: "
+            << error.what()
+            << '\n';
+    }
 }
 
 
+
+
+void ReservationManager::cancelCustomerReservation(
+    int reservationId,
+    int customerId)
+{
+    try
+    {
+        if (repository.cancelReservationForCustomer(
+            reservationId,
+            customerId))
+        {
+            cout << "Your reservation was cancelled.\n";
+        }
+        else
+        {
+            cout << "Reservation not found in your account "
+                << "or already cancelled.\n";
+        }
+    }
+    catch (const exception& error)
+    {
+        cout << "Cancellation error: "
+            << error.what()
+            << '\n';
+    }
+}
+
+
+// Manager views all reservations
+
 void ReservationManager::viewReservations() const
 {
-    if (reservations.empty())
+    try
     {
-        cout << endl;
-        cout << "No reservations found." << endl;
-
-        return;
+        printReservations(
+            repository.getReservations()
+        );
     }
-
-
-    cout << endl;
-    cout << "RESERVATIONS" << endl;
-
-
-
-    for (const Reservation& reservation : reservations)
+    catch (const exception& error)
     {
-        cout << "Reservation ID: "
-            << reservation.getReservationId()
-            << endl;
+        cout << "Unable to view reservations: "
+            << error.what()
+            << '\n';
+    }
+}
 
-        cout << "Customer ID: "
-            << reservation.getCustomerId()
-            << endl;
 
-        cout << "Vehicle ID: "
-            << reservation.getVehicleId()
-            << endl;
+// Customer views personal reservations
 
-        cout << "Rental Dates: "
-            << reservation.getStartDate()
-            << " to "
-            << reservation.getEndDate()
-            << endl;
-
-        cout << "Total Cost: $"
-            << reservation.getTotalCost()
-            << endl;
-
-        cout << "Status: "
-            << reservation.getStatus()
-            << endl;
-
-        
-          
+void ReservationManager::viewCustomerReservations(
+    int customerId) const
+{
+    try
+    {
+        printReservations(
+            repository.getReservationsForCustomer(
+                customerId
+            )
+        );
+    }
+    catch (const exception& error)
+    {
+        cout << "Unable to view your reservations: "
+            << error.what()
+            << '\n';
     }
 }
