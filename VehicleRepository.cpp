@@ -39,7 +39,7 @@ bool VehicleRepository::loadVehicles(
             << endl;
 
 
-        // STEP 2: Retrieve all vehicles
+        
 
         unique_ptr<sql::Statement> statement(
             (*connection).createStatement()
@@ -54,7 +54,7 @@ bool VehicleRepository::loadVehicles(
         );
 
 
-        // STEP 3: Convert database rows to Vehicle objects
+        
 
         int count = 0;
 
@@ -93,7 +93,7 @@ bool VehicleRepository::loadVehicles(
             );
 
 
-            // STEP 4: Add vehicle to the hash map
+            
 
             inventory.addVehicle(vehicle);
 
