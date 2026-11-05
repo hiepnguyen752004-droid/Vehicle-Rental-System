@@ -2,7 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{BC8A1FFA-BEE3-4634-8014-F334798102B3}") = "VehicleRental", "VehicleRental.vcxproj", "{05E2618E-61C4-4C41-9E70-724FBBA4FF90}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VehicleRental", "VehicleRental.vcxproj", "{05E2618E-61C4-4C41-9E70-724FBBA4FF90}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickRouteWebServer", "..\QuickRouteWebServer\QuickRouteWebServer.vcxproj", "{9C31933D-B2D3-41DA-851E-4A191D5095C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,8 +16,15 @@ Global
 		{05E2618E-61C4-4C41-9E70-724FBBA4FF90}.Debug|x64.Build.0 = Debug|x64
 		{05E2618E-61C4-4C41-9E70-724FBBA4FF90}.Release|x64.ActiveCfg = Release|x64
 		{05E2618E-61C4-4C41-9E70-724FBBA4FF90}.Release|x64.Build.0 = Release|x64
+		{9C31933D-B2D3-41DA-851E-4A191D5095C5}.Debug|x64.ActiveCfg = Debug|x64
+		{9C31933D-B2D3-41DA-851E-4A191D5095C5}.Debug|x64.Build.0 = Debug|x64
+		{9C31933D-B2D3-41DA-851E-4A191D5095C5}.Release|x64.ActiveCfg = Release|x64
+		{9C31933D-B2D3-41DA-851E-4A191D5095C5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {259554AE-A3E0-4EDA-9753-51CEFAD5660C}
 	EndGlobalSection
 EndGlobal

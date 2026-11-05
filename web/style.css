@@ -172,6 +172,274 @@ nav a:hover {
     background-color: white;
 }
 
+
+/* GENERAL WEBSITE STYLING */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #222;
+}
+
+
+/* HEADER */
+
+header {
+    background-color: #14243a;
+    color: white;
+
+    padding: 22px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+
+/* NAVIGATION */
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav a:hover {
+    color: #72aaff;
+}
+
+
+/* HERO BACKGROUND IMAGE */
+
+.hero {
+    background-color: #14243a;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.50),
+            rgba(0, 0, 0, 0.50)
+        ),
+        url("images/car-hero.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    min-height: 480px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 80px 25px;
+}
+
+
+/* HERO CONTENT */
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero-content h2 {
+    font-size: 48px;
+    color: white;
+    font-weight: bold;
+    line-height: 1.2;
+
+    margin-top: 0;
+    margin-bottom: 22px;
+}
+
+.hero-content p {
+    font-size: 20px;
+    color: white;
+    line-height: 1.6;
+
+    margin-bottom: 28px;
+}
+
+
+/* HERO BUTTON */
+
+.hero-content button {
+    background-color: #1769d2;
+    color: white;
+
+    padding: 16px 32px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: background-color 0.3s;
+}
+
+.hero-content button:hover {
+    background-color: #104b98;
+}
+
+
+/* AVAILABLE VEHICLES SECTION */
+
+#vehicles {
+    padding: 65px 45px;
+
+    max-width: 1350px;
+    margin: 0 auto;
+
+    min-height: 300px;
+}
+
+#vehicles h2 {
+    font-size: 30px;
+    color: #14243a;
+}
+
+#vehicles > p {
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+
+/* VEHICLE CONTAINER */
+
+.vehicle-container {
+    margin-top: 30px;
+}
+
+
+/* VEHICLE GRID */
+
+.vehicle-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(240px, 1fr));
+
+    gap: 25px;
+}
+
+
+/* INDIVIDUAL VEHICLE CARD */
+
+.vehicle-card {
+    background-color: white;
+
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+
+/* VEHICLE NAME */
+
+.vehicle-card h3 {
+    font-size: 22px;
+    color: #14243a;
+
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+
+/* VEHICLE INFORMATION */
+
+.vehicle-card p {
+    font-size: 16px;
+    color: #444;
+
+    margin: 12px 0;
+}
+
+
+/* RENTAL PRICE */
+
+.vehicle-card .vehicle-price {
+    font-size: 23px;
+    font-weight: bold;
+    color: #1769d2;
+
+    margin-top: 20px;
+}
+
+
+/* AVAILABILITY STATUS */
+
+.vehicle-status {
+    display: inline-block;
+
+    padding: 8px 14px;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.available {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.unavailable {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+
+/* ABOUT SECTION */
+
+#about {
+    padding: 65px 45px;
+
+    background-color: white;
+}
+
 #about h2 {
     font-size: 28px;
     color: #14243a;
@@ -180,7 +448,9 @@ nav a:hover {
 #about p {
     font-size: 17px;
     line-height: 1.8;
+
     color: #444;
+
     max-width: 900px;
 }
 
@@ -190,6 +460,7 @@ nav a:hover {
 footer {
     background-color: #14243a;
     color: white;
+
     text-align: center;
     padding: 25px;
 }
@@ -200,7 +471,7 @@ footer p {
 }
 
 
-
+/* MOBILE RESPONSIVE DESIGN */
 
 @media (max-width: 800px) {
 
@@ -229,4 +500,9 @@ footer p {
     #about {
         padding: 40px 20px;
     }
+
+    .vehicle-grid {
+        grid-template-columns: 1fr;
+    }
 }
+
