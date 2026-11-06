@@ -360,25 +360,6 @@ For the booking implementation described in the project upgrade, rental days inc
 5. Confirm the changes in the dashboard and refresh the customer website to verify the MySQL-backed results.
 6. Use the **Archive / Delete Vehicles** page when an inventory record should no longer appear in the active catalog.
 
-## Testing Checklist
-
-Before marking the project ready for demonstration, verify:
-
-- [ ] The C++ server builds and starts successfully.
-- [ ] MySQL connects and vehicle records load through `/api/vehicles`.
-- [ ] Search, filtering, and sorting return correct results.
-- [ ] Customer registration, login, and logout work.
-- [ ] Protected manager endpoints reject unauthorized users.
-- [ ] Adding and editing vehicles updates MySQL correctly.
-- [ ] Uploaded photos appear in the vehicle gallery and catalog.
-- [ ] Archive and delete operations behave correctly and safely.
-- [ ] Booking dates produce the expected price and duration.
-- [ ] Overlapping bookings for the same vehicle are rejected.
-- [ ] Customers can review and cancel eligible bookings.
-- [ ] Managers can review and manage reservations.
-- [ ] “Mark Paid” is used only after a real payment is collected in person.
-- [ ] Data remains available after restarting the application.
-- [ ] GitHub contains no passwords, private customer data, or build-only files.
 
 ## Limitations and Security
 
