@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Vehicle Reservation - QuickRoute Rentals</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="vehicle.css">
+</head>
+
+<body>
+
+<header>
+    <h1>QuickRoute Rentals</h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#vehicles">Vehicles</a>
+
+        <a href="manager.html"
+           id="manager-link"
+           hidden>
+            Manager Dashboard
+        </a>
+
+        <a href="login.html" id="account-link">
+            Login
+        </a>
+    </nav>
+</header>
+
+<main class="booking-page">
+
+    <a href="index.html#vehicles"
+       class="back-link">
+        ← Back to Vehicles
+    </a>
+
+    <p id="page-message" aria-live="polite">
+        Loading vehicle...
+    </p>
+
+    <div id="vehicle-content" hidden>
+
+        <div class="booking-layout">
+
+            <!-- VEHICLE DETAILS -->
+
+            <section class="booking-panel">
+
+                <div class="vehicle-main-photo"
+                     id="primary-photo">
+                    No photograph available
+                </div>
+
+                <div id="photo-thumbnails"
+                     class="photo-thumbnails">
+                </div>
+
+                <h2 id="car-title"></h2>
+
+                <p id="car-meta"></p>
+
+                <p id="car-price"
+                   class="car-price">
+                </p>
+
+                <p id="vehicle-status"></p>
+
+            </section>
+
+
+            <!-- RESERVATION -->
+
+            <section class="booking-panel">
+
+                <h2>Reserve This Vehicle</h2>
+
+                <p>
+                    Select your pickup and return dates.
+                    We'll check availability and calculate
+                    your rental cost.
+                </p>
+
+                <form id="booking-form">
+
+                    <div class="booking-fields">
+
+                        <div class="booking-field">
+
+                            <label for="pickup-date">
+                                Pickup Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="pickup-date"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="booking-field">
+
+                            <label for="return-date">
+                                Return Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="return-date"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        id="check-availability">
+                        Check Availability & Price
+                    </button>
+
+
+                    <!-- PRICE SUMMARY -->
+
+                    <div id="quote-panel"
+                         class="quote-panel"
+                         hidden>
+
+                        <div>
+                            <span>Daily Rate</span>
+                            <strong id="quote-daily"></strong>
+                        </div>
+
+                        <div>
+                            <span>Rental Days</span>
+                            <strong id="quote-days"></strong>
+                        </div>
+
+                        <div class="quote-total">
+                            <span>Rental Subtotal</span>
+                            <strong id="quote-total"></strong>
+                        </div>
+
+                        <p id="quote-availability"></p>
+
+                        <p class="booking-note">
+                            Both pickup and return dates count
+                            toward the rental duration.
+                            Taxes, insurance, and deposits
+                            are not included.
+                        </p>
+
+                    </div>
+
+
+                    <!-- PAYMENT SELECTION -->
+
+                    <fieldset class="payment-options">
+
+                        <legend>Payment Method</legend>
+
+                        <label>
+                            <input
+                                type="radio"
+                                name="payment"
+                                value="CardOnPickup"
+                                checked
+                            >
+                            Card at Pickup
+                        </label>
+
+                        <label>
+                            <input
+                                type="radio"
+                                name="payment"
+                                value="CashOnPickup"
+                            >
+                            Cash at Pickup
+                        </label>
+
+                        <p class="booking-note">
+                            Payment is due when you collect
+                            your vehicle. No payment is
+                            charged on this website.
+                        </p>
+
+                    </fieldset>
+
+
+                    <p id="login-notice"
+                       class="login-notice"
+                       hidden>
+                    </p>
+
+                    <button
+                        type="submit"
+                        id="reserve-button"
+                        disabled>
+                        Confirm Reservation
+                    </button>
+
+                    <p id="booking-message"
+                       aria-live="polite">
+                    </p>
+
+                </form>
+
+
+                <!-- CONFIRMATION -->
+
+                <div id="booking-confirmation"
+                     class="booking-confirmation"
+                     hidden>
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <!-- CUSTOMER RESERVATIONS -->
+
+    <section class="booking-panel reservations-panel">
+
+        <div class="section-heading">
+
+            <h2>My Reservations</h2>
+
+            <button
+                type="button"
+                id="refresh-bookings">
+                Refresh
+            </button>
+
+        </div>
+
+        <p id="my-bookings-message"
+           aria-live="polite">
+        </p>
+
+        <div id="my-bookings-list"></div>
+
+    </section>
+
+</main>
+
+<script src="vehicle.js"></script>
+
+</body>
+</html>

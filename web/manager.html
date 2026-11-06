@@ -1,0 +1,888 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Manager Dashboard - QuickRoute Rentals
+    </title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="manager.css">
+
+</head>
+
+
+<body>
+
+    <!-- =====================================
+         WEBSITE HEADER
+    ===================================== -->
+
+    <header>
+
+        <h1>QuickRoute Rentals</h1>
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="index.html#vehicles">
+                Customer Vehicles
+            </a>
+
+            <a href="manager.html">
+                Dashboard
+            </a>
+
+            <a href="login.html">
+                Account
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =====================================
+         MANAGER DASHBOARD
+    ===================================== -->
+
+    <main class="dashboard">
+
+        <section class="dashboard-top">
+
+            <div>
+
+                <h2>Vehicle Management</h2>
+
+                <p>
+                    Browse, add, and edit your entire
+                    rental vehicle inventory.
+                </p>
+
+                <p id="manager-account">
+                    Verifying manager access...
+                </p>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <button
+                    type="button"
+                    id="refresh-btn"
+                >
+                    Refresh Inventory
+                </button>
+
+                <button
+                    type="button"
+                    id="new-btn"
+                >
+                    + Add New Vehicle
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             MANAGER ACCESS
+        ================================== -->
+
+        <section id="access-denied" hidden>
+
+            <h3>Manager Access Required</h3>
+
+            <p>
+                Please sign in using an authorized
+                Manager account.
+            </p>
+
+            <a href="login.html">
+                Go to Login
+            </a>
+
+        </section>
+
+
+        <!-- =================================
+             AUTHORIZED MANAGER CONTENT
+        ================================== -->
+
+        <div id="manager-content" hidden>
+
+
+            <!-- =============================
+                 ALL EXISTING VEHICLES
+            ============================== -->
+
+            <section
+                class="panel"
+                id="inventory-panel"
+            >
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <h3>All Existing Vehicles</h3>
+
+                        <p>
+                            Click any vehicle to edit its
+                            details, rental price, status,
+                            and photographs.
+                        </p>
+
+                    </div>
+
+
+                    <strong id="vehicle-count">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <!-- VEHICLE SEARCH AND FILTERS -->
+
+                <div class="filter-row">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="field">
+
+                        <label for="search-vehicles">
+                            Search Vehicles
+                        </label>
+
+                        <input
+                            type="text"
+                            id="search-vehicles"
+                            placeholder="Toyota, Civic, Truck, 31..."
+                        >
+
+                    </div>
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="field">
+
+                        <label for="filter-category">
+                            Category
+                        </label>
+
+                        <select id="filter-category">
+
+                            <option value="">
+                                All Categories
+                            </option>
+
+                            <option value="Sedan">
+                                Sedan
+                            </option>
+
+                            <option value="SUV">
+                                SUV
+                            </option>
+
+                            <option value="Hatchback">
+                                Hatchback
+                            </option>
+
+                            <option value="Luxury">
+                                Luxury
+                            </option>
+
+                            <option value="Truck">
+                                Truck
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="field">
+
+                        <label for="filter-status">
+                            Status
+                        </label>
+
+                        <select id="filter-status">
+
+                            <option value="">
+                                All Statuses
+                            </option>
+
+                            <option value="Available">
+                                Available
+                            </option>
+
+                            <option value="Maintenance">
+                                Maintenance
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <p
+                    id="inventory-message"
+                    aria-live="polite"
+                >
+                </p>
+
+
+                <!-- MYSQL INVENTORY CARDS -->
+
+                <div
+                    class="inventory-grid"
+                    id="inventory-grid"
+                >
+                </div>
+
+            </section>
+
+
+            <!-- =============================
+                 EDIT EXISTING VEHICLE
+            ============================== -->
+
+            <section
+                class="panel"
+                id="edit-panel"
+                hidden
+            >
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <h3 id="edit-heading">
+                            Edit Vehicle
+                        </h3>
+
+                        <p>
+                            Update vehicle information,
+                            rental rates, status,
+                            and photographs.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        id="close-edit"
+                    >
+                        Close Editor
+                    </button>
+
+                </div>
+
+
+                <!-- =========================
+                     VEHICLE INFORMATION
+                ========================== -->
+
+                <form id="edit-form">
+
+                    <div class="form-grid">
+
+
+                        <!-- MAKE -->
+
+                        <div class="field">
+
+                            <label for="edit-make">
+                                Make
+                            </label>
+
+                            <input
+                                type="text"
+                                id="edit-make"
+                                maxlength="50"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- MODEL -->
+
+                        <div class="field">
+
+                            <label for="edit-model">
+                                Model
+                            </label>
+
+                            <input
+                                type="text"
+                                id="edit-model"
+                                maxlength="50"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- YEAR -->
+
+                        <div class="field">
+
+                            <label for="edit-year">
+                                Model Year
+                            </label>
+
+                            <input
+                                type="number"
+                                id="edit-year"
+                                min="1980"
+                                max="2100"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="field">
+
+                            <label for="edit-category">
+                                Category
+                            </label>
+
+                            <select id="edit-category">
+
+                                <option value="Sedan">
+                                    Sedan
+                                </option>
+
+                                <option value="SUV">
+                                    SUV
+                                </option>
+
+                                <option value="Hatchback">
+                                    Hatchback
+                                </option>
+
+                                <option value="Luxury">
+                                    Luxury
+                                </option>
+
+                                <option value="Truck">
+                                    Truck
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- DAILY RATE -->
+
+                        <div class="field">
+
+                            <label for="edit-rate">
+                                Daily Rental Rate ($)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="edit-rate"
+                                min="0.01"
+                                max="10000"
+                                step="0.01"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- VEHICLE STATUS -->
+
+                        <div class="field">
+
+                            <label for="edit-status">
+                                Vehicle Status
+                            </label>
+
+                            <select id="edit-status">
+
+                                <option value="Available">
+                                    Available
+                                </option>
+
+                                <option value="Maintenance">
+                                    Maintenance
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SAVE VEHICLE -->
+
+                    <button
+                        type="submit"
+                        id="save-edits"
+                    >
+                        Save Vehicle Changes
+                    </button>
+
+
+                    <p
+                        id="edit-result"
+                        aria-live="polite"
+                    >
+                    </p>
+
+                </form>
+
+
+                <hr>
+
+
+                <!-- =========================
+                     EXISTING PHOTOGRAPHS
+                ========================== -->
+
+                <h3>Vehicle Photographs</h3>
+
+                <p>
+                    View existing images, select
+                    the main photograph, or remove
+                    an unwanted photograph.
+                </p>
+
+
+                <div
+                    id="photo-gallery"
+                    class="photo-gallery"
+                >
+                </div>
+
+
+                <!-- =========================
+                     UPLOAD MORE PHOTOS
+                ========================== -->
+
+                <div class="upload-box">
+
+                    <h4>
+                        Add or Replace Photographs
+                    </h4>
+
+                    <p>
+                        Select up to five JPG or PNG
+                        images, maximum 3 MB each.
+                    </p>
+
+
+                    <form id="edit-photo-form">
+
+
+                        <!-- IMAGE SELECTION -->
+
+                        <div class="field">
+
+                            <label for="edit-photos">
+                                Select Photographs
+                            </label>
+
+                            <input
+                                type="file"
+                                id="edit-photos"
+                                name="photos"
+                                accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                                multiple
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- MAIN PHOTO SELECTION -->
+
+                        <div class="field">
+
+                            <label for="edit-primary">
+                                Main Photo Among New Uploads
+                            </label>
+
+                            <select
+                                id="edit-primary"
+                                name="primaryIndex"
+                            >
+
+                                <option value="0">
+                                    First photograph
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- REPLACE MAIN IMAGE -->
+
+                        <label class="check-label">
+
+                            <input
+                                type="checkbox"
+                                name="makePrimary"
+                                value="true"
+                            >
+
+                            Replace the vehicle's
+                            existing main photograph
+                            with the selected new image
+
+                        </label>
+
+
+                        <!-- UPLOAD BUTTON -->
+
+                        <button
+                            type="submit"
+                            id="upload-edit-photos"
+                        >
+                            Upload Photographs
+                        </button>
+
+
+                        <p
+                            id="photo-result"
+                            aria-live="polite"
+                        >
+                        </p>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================
+                 ADD NEW VEHICLE
+            ============================== -->
+
+            <section
+                class="panel"
+                id="create-panel"
+                hidden
+            >
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <h3>Add New Vehicle</h3>
+
+                        <p>
+                            Create a new vehicle and
+                            upload its photographs in
+                            the same operation.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        id="close-create"
+                    >
+                        Close
+                    </button>
+
+                </div>
+
+
+                <!-- NEW VEHICLE FORM -->
+
+                <form id="create-form">
+
+                    <div class="form-grid">
+
+
+                        <!-- MAKE -->
+
+                        <div class="field">
+
+                            <label for="new-make">
+                                Make
+                            </label>
+
+                            <input
+                                type="text"
+                                id="new-make"
+                                name="make"
+                                placeholder="Ford"
+                                maxlength="50"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- MODEL -->
+
+                        <div class="field">
+
+                            <label for="new-model">
+                                Model
+                            </label>
+
+                            <input
+                                type="text"
+                                id="new-model"
+                                name="model"
+                                placeholder="F-150"
+                                maxlength="50"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- YEAR -->
+
+                        <div class="field">
+
+                            <label for="new-year">
+                                Model Year
+                            </label>
+
+                            <input
+                                type="number"
+                                id="new-year"
+                                name="year"
+                                min="1980"
+                                max="2100"
+                                placeholder="2027"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="field">
+
+                            <label for="new-category">
+                                Category
+                            </label>
+
+                            <select
+                                id="new-category"
+                                name="category"
+                            >
+
+                                <option value="Sedan">
+                                    Sedan
+                                </option>
+
+                                <option value="SUV">
+                                    SUV
+                                </option>
+
+                                <option value="Hatchback">
+                                    Hatchback
+                                </option>
+
+                                <option value="Luxury">
+                                    Luxury
+                                </option>
+
+                                <option value="Truck">
+                                    Truck
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- DAILY RATE -->
+
+                        <div class="field">
+
+                            <label for="new-rate">
+                                Daily Rental Rate ($)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="new-rate"
+                                name="dailyRate"
+                                min="0.01"
+                                max="10000"
+                                step="0.01"
+                                placeholder="95.00"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="field">
+
+                            <label for="new-status">
+                                Vehicle Status
+                            </label>
+
+                            <select
+                                id="new-status"
+                                name="status"
+                            >
+
+                                <option value="Available">
+                                    Available
+                                </option>
+
+                                <option value="Maintenance">
+                                    Maintenance
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================
+                         VEHICLE PHOTOGRAPHS
+                    ========================== -->
+
+                    <div class="upload-box">
+
+                        <h4>Vehicle Photographs</h4>
+
+                        <p>
+                            Select up to five JPG or PNG
+                            images, maximum 3 MB each.
+                        </p>
+
+
+                        <div class="field">
+
+                            <label for="new-photos">
+                                Select Images
+                            </label>
+
+                            <input
+                                type="file"
+                                id="new-photos"
+                                name="photos"
+                                accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                                multiple
+                            >
+
+                        </div>
+
+
+                        <!-- PRIMARY IMAGE -->
+
+                        <div class="field">
+
+                            <label for="new-primary">
+                                Main Photograph
+                            </label>
+
+                            <select
+                                id="new-primary"
+                                name="primaryIndex"
+                            >
+
+                                <option value="0">
+                                    First photograph
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SAVE NEW VEHICLE -->
+
+                    <button
+                        type="submit"
+                        id="save-new"
+                    >
+                        Save Vehicle and Photos
+                    </button>
+
+
+                    <p
+                        id="create-result"
+                        aria-live="polite"
+                    >
+                    </p>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================
+                 CUSTOMER RESERVATIONS
+                 
+                 manager-reservations.js adds
+                 the reservation table here,
+                 inside manager-content.
+            ================================== -->
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================
+         EXISTING MANAGER INVENTORY SYSTEM
+    ===================================== -->
+
+    <script src="manager.js"></script>
+
+
+    <!-- =====================================
+         NEW RESERVATION AND PAYMENT SYSTEM
+    ===================================== -->
+
+    <script src="manager-reservations.js"></script>
+
+</body>
+</html>

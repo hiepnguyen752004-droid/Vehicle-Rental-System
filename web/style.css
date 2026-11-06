@@ -1,5 +1,4 @@
 
-
 /* GENERAL */
 
 * {
@@ -23,13 +22,15 @@ body {
 header {
     background-color: #14243a;
     color: white;
+
     padding: 22px 40px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 header h1 {
@@ -43,183 +44,8 @@ header h1 {
 nav {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     gap: 25px;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-nav a:hover {
-    color: #72aaff;
-}
-
-
-/* HERO SECTION WITH BACKGROUND IMAGE */
-
-.hero {
-    background-color: #14243a;
-
-    background-image:
-        linear-gradient(
-            rgba(0, 0, 0, 0.50),
-            rgba(0, 0, 0, 0.50)
-        ),
-        url("images/car-hero.jpg");
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    min-height: 480px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-
-    padding: 80px 25px;
-}
-
-
-/* TEXT ON TOP OF BACKGROUND IMAGE */
-
-.hero-content {
-    max-width: 800px;
-    position: relative;
-    z-index: 1;
-}
-
-.hero-content h2 {
-    font-size: 48px;
-    color: white;
-    font-weight: bold;
-    line-height: 1.2;
-
-    margin-top: 0;
-    margin-bottom: 22px;
-}
-
-.hero-content p {
-    font-size: 20px;
-    color: white;
-    line-height: 1.6;
-
-    margin-bottom: 28px;
-}
-
-
-/* BROWSE VEHICLES BUTTON */
-
-.hero-content button {
-    background-color: #1769d2;
-    color: white;
-
-    padding: 16px 32px;
-
-    font-size: 17px;
-    font-weight: bold;
-
-    border: none;
-    border-radius: 8px;
-
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.hero-content button:hover {
-    background-color: #104b98;
-}
-
-
-/* AVAILABLE VEHICLES */
-
-#vehicles {
-    padding: 65px 45px;
-    max-width: 1350px;
-    margin: 0 auto;
-    min-height: 230px;
-}
-
-#vehicles h2 {
-    font-size: 28px;
-    color: #14243a;
-}
-
-#vehicles p {
-    font-size: 17px;
-    line-height: 1.7;
-}
-
-.vehicle-container {
-    margin-top: 25px;
-    background-color: white;
-    padding: 25px;
-    border-radius: 10px;
-
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-}
-
-
-/* ABOUT SECTION */
-
-#about {
-    padding: 65px 45px;
-    background-color: white;
-}
-
-
-/* GENERAL WEBSITE STYLING */
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    color: #222;
-}
-
-
-/* HEADER */
-
-header {
-    background-color: #14243a;
-    color: white;
-
-    padding: 22px 40px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
     flex-wrap: wrap;
-    gap: 20px;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 25px;
-}
-
-
-/* NAVIGATION */
-
-nav {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 25px;
 }
 
 nav a {
@@ -256,11 +82,9 @@ nav a:hover {
     align-items: center;
 
     text-align: center;
+
     padding: 80px 25px;
 }
-
-
-/* HERO CONTENT */
 
 .hero-content {
     max-width: 800px;
@@ -269,7 +93,6 @@ nav a:hover {
 .hero-content h2 {
     font-size: 48px;
     color: white;
-    font-weight: bold;
     line-height: 1.2;
 
     margin-top: 0;
@@ -284,9 +107,6 @@ nav a:hover {
     margin-bottom: 28px;
 }
 
-
-/* HERO BUTTON */
-
 .hero-content button {
     background-color: #1769d2;
     color: white;
@@ -300,8 +120,6 @@ nav a:hover {
     border-radius: 8px;
 
     cursor: pointer;
-
-    transition: background-color 0.3s;
 }
 
 .hero-content button:hover {
@@ -309,15 +127,13 @@ nav a:hover {
 }
 
 
-/* AVAILABLE VEHICLES SECTION */
+/* VEHICLES SECTION */
 
 #vehicles {
     padding: 65px 45px;
 
-    max-width: 1350px;
+    max-width: 1400px;
     margin: 0 auto;
-
-    min-height: 300px;
 }
 
 #vehicles h2 {
@@ -331,26 +147,132 @@ nav a:hover {
 }
 
 
-/* VEHICLE CONTAINER */
+/* SEARCH PANEL */
 
-.vehicle-container {
+.search-panel {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+
+    background-color: white;
+
+    padding: 30px;
+    margin-top: 30px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.07);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+    min-width: 0;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #14243a;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    padding: 14px;
+
+    font-size: 16px;
+
+    border: 1px solid #cccccc;
+    border-radius: 7px;
+
+    background-color: white;
+    color: #222;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: 2px solid #1769d2;
+    outline-offset: 1px;
+}
+
+
+/* SEARCH BUTTONS */
+
+.search-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-actions button {
+    background-color: #1769d2;
+    color: white;
+
+    padding: 15px 25px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.search-actions button:hover {
+    background-color: #104b98;
+}
+
+.search-actions .reset-button {
+    background-color: #5b6576;
+}
+
+.search-actions .reset-button:hover {
+    background-color: #414b5b;
+}
+
+
+/* RESULT COUNT */
+
+#vehicle-count {
+    font-size: 17px;
+    font-weight: bold;
+
+    color: #14243a;
+
     margin-top: 30px;
 }
 
 
 /* VEHICLE GRID */
 
+.vehicle-container {
+    margin-top: 25px;
+}
+
 .vehicle-grid {
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fit, minmax(240px, 1fr));
+        repeat(auto-fit, minmax(250px, 1fr));
 
     gap: 25px;
 }
 
 
-/* INDIVIDUAL VEHICLE CARD */
+/* VEHICLE CARDS */
 
 .vehicle-card {
     background-color: white;
@@ -363,20 +285,12 @@ nav a:hover {
     box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.08);
 
-    transition:
-        transform 0.3s,
-        box-shadow 0.3s;
+    transition: transform 0.2s;
 }
 
 .vehicle-card:hover {
-    transform: translateY(-5px);
-
-    box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
 }
-
-
-/* VEHICLE NAME */
 
 .vehicle-card h3 {
     font-size: 22px;
@@ -386,18 +300,11 @@ nav a:hover {
     margin-bottom: 18px;
 }
 
-
-/* VEHICLE INFORMATION */
-
 .vehicle-card p {
     font-size: 16px;
     color: #444;
-
     margin: 12px 0;
 }
-
-
-/* RENTAL PRICE */
 
 .vehicle-card .vehicle-price {
     font-size: 23px;
@@ -406,9 +313,6 @@ nav a:hover {
 
     margin-top: 20px;
 }
-
-
-/* AVAILABILITY STATUS */
 
 .vehicle-status {
     display: inline-block;
@@ -431,12 +335,25 @@ nav a:hover {
     color: #721c24;
 }
 
+.vehicle-image {
+    width: 100%;
+    height: 190px;
 
-/* ABOUT SECTION */
+    object-fit: cover;
+    border-radius: 8px;
+
+    margin-bottom: 15px;
+}
+
+.grid-message {
+    grid-column: 1 / -1;
+}
+
+
+/* ABOUT */
 
 #about {
     padding: 65px 45px;
-
     background-color: white;
 }
 
@@ -448,9 +365,7 @@ nav a:hover {
 #about p {
     font-size: 17px;
     line-height: 1.8;
-
     color: #444;
-
     max-width: 900px;
 }
 
@@ -461,8 +376,8 @@ footer {
     background-color: #14243a;
     color: white;
 
-    text-align: center;
     padding: 25px;
+    text-align: center;
 }
 
 footer p {
@@ -471,16 +386,23 @@ footer p {
 }
 
 
-/* MOBILE RESPONSIVE DESIGN */
+/* TABLET */
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
+
+    .search-panel {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
 
     header {
         padding: 20px;
-    }
-
-    nav {
-        gap: 15px;
     }
 
     .hero {
@@ -499,6 +421,19 @@ footer p {
     #vehicles,
     #about {
         padding: 40px 20px;
+    }
+
+    .search-panel {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .search-actions {
+        flex-direction: column;
+    }
+
+    .search-actions button {
+        width: 100%;
     }
 
     .vehicle-grid {

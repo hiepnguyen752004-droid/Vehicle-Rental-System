@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login - QuickRoute Rentals</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .login-container {
+            max-width: 450px;
+            margin: 70px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .login-container h2 {
+            color: #14243a;
+            margin-top: 0;
+        }
+
+        .login-container label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: bold;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            box-sizing: border-box;
+        }
+
+        .login-container button {
+            margin-top: 20px;
+            padding: 13px 22px;
+            background: #1769d2;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        #login-message {
+            margin-top: 20px;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+
+        <h1>QuickRoute Rentals</h1>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#vehicles">Vehicles</a>
+            <a href="login.html">Login</a>
+        </nav>
+
+    </header>
+
+    <main class="login-container">
+
+        <h2>Account Login</h2>
+
+        <form id="login-form">
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                required
+                autocomplete="username"
+            >
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                required
+                autocomplete="current-password"
+            >
+
+            <button type="submit">
+                Log In
+            </button>
+
+        </form>
+
+        <section id="account-panel" hidden>
+
+            <h3 id="welcome-message"></h3>
+
+            <p id="account-role"></p>
+
+            <button type="button"
+                    id="logout-button">
+                Log Out
+            </button>
+
+        </section>
+
+        <p id="login-message"
+           aria-live="polite"></p>
+
+    </main>
+
+    <script src="login.js"></script>
+
+</body>
+</html>
