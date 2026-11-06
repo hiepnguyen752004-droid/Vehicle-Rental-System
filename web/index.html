@@ -4,106 +4,869 @@
 
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
     <title>QuickRoute Rentals</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* =====================================
+           GENERAL STYLING
+        ===================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #17263e;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+
+        /* =====================================
+           HEADER AND NAVIGATION
+        ===================================== */
+
+        .qr-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+
+            background: #14243a;
+            color: white;
+
+            padding: 16px 30px;
+        }
+
+        .qr-header h1 {
+            margin: 0;
+            font-size: 25px;
+            color: white;
+        }
+
+        .qr-header nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .qr-header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0;
+        }
+
+        .qr-header nav a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =====================================
+           HOMEPAGE HERO
+        ===================================== */
+
+        .qr-hero {
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.55),
+                    rgba(0,0,0,0.55)
+                ),
+                url("images/car-hero.jpg")
+                center / cover no-repeat;
+
+            min-height: 440px;
+
+            padding: 70px 20px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+            color: white;
+        }
+
+        .qr-hero h2 {
+            color: white;
+
+            font-size: clamp(32px, 4vw, 48px);
+
+            margin: 0 0 20px;
+        }
+
+        .qr-hero p {
+            font-size: 19px;
+            margin: 0 0 30px;
+        }
+
+        .qr-hero-link {
+            display: inline-block;
+
+            padding: 15px 28px;
+
+            background: #1769d2;
+            color: white;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .qr-hero-link:hover {
+            background: #1054ae;
+        }
+
+
+        /* =====================================
+           MAIN CONTAINER
+        ===================================== */
+
+        .qr-container {
+            width: min(1350px, 100%);
+
+            margin: 0 auto;
+
+            padding: 55px 28px 90px;
+        }
+
+        #vehicles {
+            padding: 0;
+        }
+
+        #vehicles > h2 {
+            font-size: 31px;
+            color: #14243a;
+            margin: 0 0 20px;
+        }
+
+        .qr-intro {
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+
+        /* =====================================
+           SEARCH PANEL
+        ===================================== */
+
+        .qr-search-panel {
+            width: 100%;
+
+            background: white;
+
+            border-radius: 13px;
+
+            padding: 30px;
+
+            margin-bottom: 32px;
+
+            box-shadow:
+                0 4px 20px rgba(0,0,0,0.07);
+        }
+
+        #vehicle-search-form {
+            display: block;
+
+            width: 100%;
+            max-width: none;
+
+            margin: 0;
+            padding: 0;
+
+            border: none;
+            background: transparent;
+            box-shadow: none;
+        }
+
+
+        /* =====================================
+           SEARCH FORM GRID
+        ===================================== */
+
+        .qr-search-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+        .qr-field {
+            display: flex;
+            flex-direction: column;
+
+            gap: 9px;
+            min-width: 0;
+        }
+
+        .qr-field label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #14243a;
+        }
+
+        .qr-field input,
+        .qr-field select {
+            width: 100%;
+            min-width: 0;
+            max-width: none;
+
+            height: 49px;
+
+            padding: 11px 14px;
+
+            border: 1px solid #ccd2dc;
+            border-radius: 7px;
+
+            background: white;
+            color: #222;
+
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        .qr-field input:focus,
+        .qr-field select:focus {
+            outline: 2px solid #1769d2;
+            outline-offset: 1px;
+        }
+
+        .qr-full {
+            grid-column: 1 / -1;
+        }
+
+
+        /* =====================================
+           SEARCH BUTTONS
+        ===================================== */
+
+        .qr-actions {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 15px;
+
+            margin-top: 22px;
+        }
+
+        .qr-actions button {
+            width: auto;
+            min-width: 170px;
+
+            padding: 14px 24px;
+
+            background: #1769d2;
+            color: white;
+
+            border: none;
+            border-radius: 7px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .qr-actions button:hover {
+            background: #1054ae;
+        }
+
+        .qr-actions #reset-button {
+            background: #596375;
+        }
+
+        .qr-actions #reset-button:hover {
+            background: #414958;
+        }
+
+
+        /* =====================================
+           VEHICLE COUNT
+        ===================================== */
+
+        #vehicle-count {
+            font-size: 17px;
+            font-weight: bold;
+
+            margin: 24px 0;
+        }
+
+        #vehicle-message {
+            color: #a12626;
+        }
+
+
+        /* =====================================
+           VEHICLE GRID
+        ===================================== */
+
+        #vehicle-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 24px;
+
+            width: 100%;
+        }
+
+
+        /* =====================================
+           VEHICLE CARDS
+        ===================================== */
+
+        .qr-vehicle-card {
+            background: white;
+
+            border: 1px solid #e2e5eb;
+            border-radius: 12px;
+
+            padding: 18px;
+
+            box-shadow:
+                0 4px 13px rgba(0,0,0,0.06);
+
+            cursor: pointer;
+
+            min-width: 0;
+
+            transition:
+                transform 0.15s,
+                box-shadow 0.15s;
+        }
+
+        .qr-vehicle-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 22px rgba(0,0,0,0.12);
+        }
+
+
+        /* =====================================
+           VEHICLE IMAGES
+        ===================================== */
+
+        .qr-vehicle-image {
+            height: 185px;
+            width: 100%;
+
+            border-radius: 9px;
+
+            background: #e8edf4;
+
+            overflow: hidden;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #64748b;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .qr-vehicle-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        /* =====================================
+           VEHICLE INFORMATION
+        ===================================== */
+
+        .qr-vehicle-card h3 {
+            font-size: 21px;
+
+            margin: 18px 0 13px;
+
+            color: #14243a;
+        }
+
+        .qr-vehicle-card p {
+            margin: 10px 0;
+            font-size: 15px;
+        }
+
+        .qr-price {
+            color: #1769d2;
+
+            font-size: 23px !important;
+            font-weight: bold;
+
+            margin: 20px 0 12px !important;
+        }
+
+
+        /* =====================================
+           VEHICLE STATUS
+        ===================================== */
+
+        .qr-status {
+            display: inline-block;
+
+            border-radius: 6px;
+
+            padding: 7px 12px;
+
+            background: #d8f1df;
+            color: #145d30;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .qr-status.maintenance {
+            background: #fff0d6;
+            color: #845400;
+        }
+
+
+        /* =====================================
+           RESERVATION BUTTON
+        ===================================== */
+
+        .qr-card-link {
+            display: block;
+
+            margin-top: 18px;
+
+            padding: 12px;
+
+            text-align: center;
+
+            background: #1769d2;
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .qr-card-link:hover {
+            background: #1054ae;
+        }
+
+
+        /* =====================================
+           RESPONSIVE DESIGN
+        ===================================== */
+
+        @media (max-width: 1150px) {
+
+            #vehicle-list {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 850px) {
+
+            #vehicle-list,
+            .qr-search-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            #vehicle-list,
+            .qr-search-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .qr-container {
+                padding: 30px 15px 60px;
+            }
+
+            .qr-search-panel {
+                padding: 20px;
+            }
+
+            .qr-header {
+                padding: 16px;
+            }
+
+            .qr-actions button {
+                width: 100%;
+            }
+
+            .qr-hero {
+                min-height: 340px;
+            }
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-   
+    <!-- =====================================
+         HEADER
+    ===================================== -->
 
-    <header>
+    <header class="qr-header">
+
         <h1>QuickRoute Rentals</h1>
 
         <nav>
-            <a href="index.html">Home</a>
-            <a href="#vehicles">Vehicles</a>
-            <a href="#about">About</a>
-            <a href="#" title="Login coming soon">Login</a>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="#vehicles">
+                Vehicles
+            </a>
+
+            <a href="manager.html"
+               id="manager-nav-link"
+               hidden>
+                Manager Dashboard
+            </a>
+
+            <a href="login.html"
+               id="account-nav-link">
+                Login
+            </a>
+
         </nav>
+
     </header>
 
 
+    <!-- =====================================
+         HOMEPAGE HERO
+    ===================================== -->
+
     <main>
 
-        
+        <section class="qr-hero">
 
-        <section class="hero">
+            <h2>
+                Find Your Perfect Rental Car
+            </h2>
 
-            <div class="hero-content">
+            <p>
+                Browse available vehicles and book
+                your next rental.
+            </p>
 
-                <h2>Find Your Perfect Rental Car</h2>
+            <a href="#vehicles"
+               class="qr-hero-link">
+                Browse Vehicles
+            </a>
 
-                <p>
-                    Browse available vehicles and
-                    book your next rental.
+        </section>
+
+
+        <!-- =================================
+             VEHICLE INVENTORY
+        ================================== -->
+
+        <div class="qr-container">
+
+            <section id="vehicles">
+
+                <h2>Available Vehicles</h2>
+
+                <p class="qr-intro">
+                    Search our rental inventory and
+                    find the right vehicle for your next trip.
                 </p>
 
-                <button type="button"
-                        onclick="showMessage()">
-                    Browse Vehicles
-                </button>
 
-            </div>
+                <!-- =========================
+                     SEARCH PANEL
+                ========================= -->
 
-        </section>
+                <div class="qr-search-panel">
+
+                    <form id="vehicle-search-form">
+
+                        <div class="qr-search-grid">
 
 
-        
+                            <!-- KEYWORD SEARCH -->
 
-        <section id="vehicles">
+                            <div class="qr-field qr-full">
 
-            <h2>Available Vehicles</h2>
+                                <label for="search-input">
+                                    Search Vehicles
+                                </label>
 
-            <p>
-                Explore our selection of rental vehicles.
-                Find the right car for your next trip.
-            </p>
+                                <input
+                                    id="search-input"
+                                    type="text"
+                                    placeholder="Toyota, Honda, Camry, SUV, Truck, 2026..."
+                                    maxlength="80"
+                                >
 
-            <div class="vehicle-container">
+                            </div>
 
-                <div id="vehicle-list"
-                     class="vehicle-grid">
+
+                            <!-- MAKE FILTER -->
+
+                            <div class="qr-field">
+
+                                <label for="make-filter">
+                                    Make
+                                </label>
+
+                                <select id="make-filter">
+
+                                    <option value="">
+                                        All Makes
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- CATEGORY FILTER -->
+
+                            <div class="qr-field">
+
+                                <label for="category-filter">
+                                    Category
+                                </label>
+
+                                <select id="category-filter">
+
+                                    <option value="">
+                                        All Categories
+                                    </option>
+
+                                    <option value="Sedan">
+                                        Sedan
+                                    </option>
+
+                                    <option value="SUV">
+                                        SUV
+                                    </option>
+
+                                    <option value="Hatchback">
+                                        Hatchback
+                                    </option>
+
+                                    <option value="Luxury">
+                                        Luxury
+                                    </option>
+
+                                    <option value="Truck">
+                                        Truck
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- MODEL YEAR -->
+
+                            <div class="qr-field">
+
+                                <label for="year-filter">
+                                    Model Year
+                                </label>
+
+                                <input
+                                    id="year-filter"
+                                    type="number"
+                                    min="1886"
+                                    max="2100"
+                                    placeholder="Any Year"
+                                >
+
+                            </div>
+
+
+                            <!-- VEHICLE STATUS -->
+
+                            <div class="qr-field">
+
+                                <label for="status-filter">
+                                    Status
+                                </label>
+
+                                <select id="status-filter">
+
+                                    <option value="">
+                                        All Statuses
+                                    </option>
+
+                                    <option value="Available">
+                                        Available
+                                    </option>
+
+                                    <option value="Maintenance">
+                                        Maintenance
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- MINIMUM PRICE -->
+
+                            <div class="qr-field">
+
+                                <label for="min-price">
+                                    Minimum Price ($/day)
+                                </label>
+
+                                <input
+                                    id="min-price"
+                                    type="number"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="Min Price"
+                                >
+
+                            </div>
+
+
+                            <!-- MAXIMUM PRICE -->
+
+                            <div class="qr-field">
+
+                                <label for="max-price">
+                                    Maximum Price ($/day)
+                                </label>
+
+                                <input
+                                    id="max-price"
+                                    type="number"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="Max Price"
+                                >
+
+                            </div>
+
+
+                            <!-- SORT VEHICLES -->
+
+                            <div class="qr-field qr-full">
+
+                                <label for="sort-filter">
+                                    Sort Vehicles
+                                </label>
+
+                                <select id="sort-filter">
+
+                                    <option value="price_asc" selected>
+                                        Price: Low to High
+                                    </option>
+
+                                    <option value="price_desc">
+                                        Price: High to Low
+                                    </option>
+
+                                    <option value="year_desc">
+                                        Year: Newest First
+                                    </option>
+
+                                    <option value="year_asc">
+                                        Year: Oldest First
+                                    </option>
+
+                                    <option value="make_asc">
+                                        Make: A to Z
+                                    </option>
+
+                                    <option value="id_asc">
+                                        Vehicle ID
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SEARCH BUTTONS -->
+
+                        <div class="qr-actions">
+
+                            <button type="submit">
+                                Search Vehicles
+                            </button>
+
+                            <button
+                                type="button"
+                                id="reset-button">
+                                Show All Vehicles
+                            </button>
+
+                        </div>
+
+                    </form>
+
                 </div>
 
-            </div>
 
-        </section>
+                <!-- =========================
+                     VEHICLE RESULTS
+                ========================= -->
+
+                <p id="vehicle-count"
+                   aria-live="polite">
+                    Loading vehicles...
+                </p>
+
+                <p id="vehicle-message"
+                   role="alert">
+                </p>
 
 
-        
+                <!-- =========================
+                     MYSQL VEHICLE CARDS
+                ========================= -->
 
-        <section id="about">
+                <div
+                    id="vehicle-list"
+                    class="vehicle-grid">
+                </div>
 
-            <h2>About QuickRoute Rentals</h2>
+            </section>
 
-
-            <p>
-                Our goal is to make vehicle searching,
-                booking, and rental management simple
-                and convenient for customers.
-            </p>
-
-        </section>
+        </div>
 
     </main>
 
 
-   
-
-    <footer>
-        <p>
-            &copy; 2026 QuickRoute Rentals.
-            All rights reserved.
-        </p>
-    </footer>
-
-
-   
+    <!-- =====================================
+         CUSTOMER VEHICLE SEARCH
+         AND RESERVATION LINKS
+    ===================================== -->
 
     <script src="script.js"></script>
 
