@@ -1,25 +1,17 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Manager Dashboard - QuickRoute Rentals
-    </title>
+    <title>Manager Dashboard - QuickRoute Rentals</title>
 
     <link rel="stylesheet" href="style.css">
-
     <link rel="stylesheet" href="manager.css">
-
 </head>
-
 
 <body>
 
@@ -28,14 +20,10 @@
     ===================================== -->
 
     <header>
-
         <h1>QuickRoute Rentals</h1>
 
         <nav>
-
-            <a href="index.html">
-                Home
-            </a>
+            <a href="index.html">Home</a>
 
             <a href="index.html#vehicles">
                 Customer Vehicles
@@ -48,9 +36,7 @@
             <a href="login.html">
                 Account
             </a>
-
         </nav>
-
     </header>
 
 
@@ -63,7 +49,6 @@
         <section class="dashboard-top">
 
             <div>
-
                 <h2>Vehicle Management</h2>
 
                 <p>
@@ -74,34 +59,44 @@
                 <p id="manager-account">
                     Verifying manager access...
                 </p>
-
             </div>
 
+
+            <!-- =================================
+                 DASHBOARD ACTION BUTTONS
+            ================================= -->
 
             <div class="top-actions">
 
                 <button
                     type="button"
-                    id="refresh-btn"
-                >
+                    id="refresh-btn">
                     Refresh Inventory
                 </button>
 
                 <button
                     type="button"
-                    id="new-btn"
-                >
+                    id="new-btn">
                     + Add New Vehicle
                 </button>
+
+
+                <!-- NEW: ARCHIVE / DELETE VEHICLES -->
+
+                <a
+                    href="manager-removal.html"
+                    class="archive-delete-button">
+                    Archive / Delete Vehicles
+                </a>
 
             </div>
 
         </section>
 
 
-        <!-- =================================
+        <!-- =====================================
              MANAGER ACCESS
-        ================================== -->
+        ===================================== -->
 
         <section id="access-denied" hidden>
 
@@ -119,26 +114,24 @@
         </section>
 
 
-        <!-- =================================
+        <!-- =====================================
              AUTHORIZED MANAGER CONTENT
-        ================================== -->
+        ===================================== -->
 
         <div id="manager-content" hidden>
 
 
-            <!-- =============================
+            <!-- =================================
                  ALL EXISTING VEHICLES
-            ============================== -->
+            ================================= -->
 
             <section
                 class="panel"
-                id="inventory-panel"
-            >
+                id="inventory-panel">
 
                 <div class="panel-heading">
 
                     <div>
-
                         <h3>All Existing Vehicles</h3>
 
                         <p>
@@ -146,9 +139,7 @@
                             details, rental price, status,
                             and photographs.
                         </p>
-
                     </div>
-
 
                     <strong id="vehicle-count">
                         Loading...
@@ -157,12 +148,12 @@
                 </div>
 
 
-                <!-- VEHICLE SEARCH AND FILTERS -->
+                <!-- SEARCH AND FILTERS -->
 
                 <div class="filter-row">
 
 
-                    <!-- SEARCH -->
+                    <!-- VEHICLE SEARCH -->
 
                     <div class="field">
 
@@ -173,9 +164,7 @@
                         <input
                             type="text"
                             id="search-vehicles"
-                            placeholder="Toyota, Civic, Truck, 31..."
-                        >
-
+                            placeholder="Toyota, Civic, Truck, 31...">
                     </div>
 
 
@@ -218,7 +207,7 @@
                     </div>
 
 
-                    <!-- STATUS -->
+                    <!-- VEHICLE STATUS -->
 
                     <div class="field">
 
@@ -247,33 +236,32 @@
                 </div>
 
 
+                <!-- INVENTORY MESSAGES -->
+
                 <p
                     id="inventory-message"
-                    aria-live="polite"
-                >
+                    aria-live="polite">
                 </p>
 
 
-                <!-- MYSQL INVENTORY CARDS -->
+                <!-- INVENTORY VEHICLE CARDS -->
 
                 <div
                     class="inventory-grid"
-                    id="inventory-grid"
-                >
+                    id="inventory-grid">
                 </div>
 
             </section>
 
 
-            <!-- =============================
+            <!-- =================================
                  EDIT EXISTING VEHICLE
-            ============================== -->
+            ================================= -->
 
             <section
                 class="panel"
                 id="edit-panel"
-                hidden
-            >
+                hidden>
 
                 <div class="panel-heading">
 
@@ -291,21 +279,17 @@
 
                     </div>
 
-
                     <button
                         type="button"
                         class="secondary-btn"
-                        id="close-edit"
-                    >
+                        id="close-edit">
                         Close Editor
                     </button>
 
                 </div>
 
 
-                <!-- =========================
-                     VEHICLE INFORMATION
-                ========================== -->
+                <!-- VEHICLE INFORMATION FORM -->
 
                 <form id="edit-form">
 
@@ -324,9 +308,7 @@
                                 type="text"
                                 id="edit-make"
                                 maxlength="50"
-                                required
-                            >
-
+                                required>
                         </div>
 
 
@@ -342,13 +324,11 @@
                                 type="text"
                                 id="edit-model"
                                 maxlength="50"
-                                required
-                            >
-
+                                required>
                         </div>
 
 
-                        <!-- YEAR -->
+                        <!-- MODEL YEAR -->
 
                         <div class="field">
 
@@ -361,9 +341,7 @@
                                 id="edit-year"
                                 min="1980"
                                 max="2100"
-                                required
-                            >
-
+                                required>
                         </div>
 
 
@@ -402,7 +380,7 @@
                         </div>
 
 
-                        <!-- DAILY RATE -->
+                        <!-- DAILY RENTAL RATE -->
 
                         <div class="field">
 
@@ -416,9 +394,7 @@
                                 min="0.01"
                                 max="10000"
                                 step="0.01"
-                                required
-                            >
-
+                                required>
                         </div>
 
 
@@ -447,20 +423,17 @@
                     </div>
 
 
-                    <!-- SAVE VEHICLE -->
+                    <!-- SAVE VEHICLE CHANGES -->
 
                     <button
                         type="submit"
-                        id="save-edits"
-                    >
+                        id="save-edits">
                         Save Vehicle Changes
                     </button>
 
-
                     <p
                         id="edit-result"
-                        aria-live="polite"
-                    >
+                        aria-live="polite">
                     </p>
 
                 </form>
@@ -469,9 +442,9 @@
                 <hr>
 
 
-                <!-- =========================
-                     EXISTING PHOTOGRAPHS
-                ========================== -->
+                <!-- =================================
+                     EXISTING VEHICLE PHOTOGRAPHS
+                ================================= -->
 
                 <h3>Vehicle Photographs</h3>
 
@@ -481,23 +454,19 @@
                     an unwanted photograph.
                 </p>
 
-
                 <div
                     id="photo-gallery"
-                    class="photo-gallery"
-                >
+                    class="photo-gallery">
                 </div>
 
 
-                <!-- =========================
-                     UPLOAD MORE PHOTOS
-                ========================== -->
+                <!-- =================================
+                     UPLOAD NEW PHOTOGRAPHS
+                ================================= -->
 
                 <div class="upload-box">
 
-                    <h4>
-                        Add or Replace Photographs
-                    </h4>
+                    <h4>Add or Replace Photographs</h4>
 
                     <p>
                         Select up to five JPG or PNG
@@ -508,7 +477,7 @@
                     <form id="edit-photo-form">
 
 
-                        <!-- IMAGE SELECTION -->
+                        <!-- SELECT PHOTOGRAPHS -->
 
                         <div class="field">
 
@@ -522,13 +491,11 @@
                                 name="photos"
                                 accept=".jpg,.jpeg,.png,image/jpeg,image/png"
                                 multiple
-                                required
-                            >
-
+                                required>
                         </div>
 
 
-                        <!-- MAIN PHOTO SELECTION -->
+                        <!-- SELECT MAIN PHOTO -->
 
                         <div class="field">
 
@@ -538,8 +505,7 @@
 
                             <select
                                 id="edit-primary"
-                                name="primaryIndex"
-                            >
+                                name="primaryIndex">
 
                                 <option value="0">
                                     First photograph
@@ -550,15 +516,14 @@
                         </div>
 
 
-                        <!-- REPLACE MAIN IMAGE -->
+                        <!-- REPLACE EXISTING MAIN PHOTO -->
 
                         <label class="check-label">
 
                             <input
                                 type="checkbox"
                                 name="makePrimary"
-                                value="true"
-                            >
+                                value="true">
 
                             Replace the vehicle's
                             existing main photograph
@@ -571,16 +536,13 @@
 
                         <button
                             type="submit"
-                            id="upload-edit-photos"
-                        >
+                            id="upload-edit-photos">
                             Upload Photographs
                         </button>
 
-
                         <p
                             id="photo-result"
-                            aria-live="polite"
-                        >
+                            aria-live="polite">
                         </p>
 
                     </form>
@@ -590,20 +552,18 @@
             </section>
 
 
-            <!-- =============================
+            <!-- =================================
                  ADD NEW VEHICLE
-            ============================== -->
+            ================================= -->
 
             <section
                 class="panel"
                 id="create-panel"
-                hidden
-            >
+                hidden>
 
                 <div class="panel-heading">
 
                     <div>
-
                         <h3>Add New Vehicle</h3>
 
                         <p>
@@ -611,15 +571,12 @@
                             upload its photographs in
                             the same operation.
                         </p>
-
                     </div>
-
 
                     <button
                         type="button"
                         class="secondary-btn"
-                        id="close-create"
-                    >
+                        id="close-create">
                         Close
                     </button>
 
@@ -647,9 +604,7 @@
                                 name="make"
                                 placeholder="Ford"
                                 maxlength="50"
-                                required
-                            >
-
+                                required>
                         </div>
 
 
@@ -667,13 +622,11 @@
                                 name="model"
                                 placeholder="F-150"
                                 maxlength="50"
-                                required
-                            >
-
+                                required>
                         </div>
 
 
-                        <!-- YEAR -->
+                        <!-- MODEL YEAR -->
 
                         <div class="field">
 
@@ -688,9 +641,7 @@
                                 min="1980"
                                 max="2100"
                                 placeholder="2027"
-                                required
-                            >
-
+                                required>
                         </div>
 
 
@@ -704,8 +655,7 @@
 
                             <select
                                 id="new-category"
-                                name="category"
-                            >
+                                name="category">
 
                                 <option value="Sedan">
                                     Sedan
@@ -732,7 +682,7 @@
                         </div>
 
 
-                        <!-- DAILY RATE -->
+                        <!-- DAILY RENTAL RATE -->
 
                         <div class="field">
 
@@ -748,13 +698,11 @@
                                 max="10000"
                                 step="0.01"
                                 placeholder="95.00"
-                                required
-                            >
-
+                                required>
                         </div>
 
 
-                        <!-- STATUS -->
+                        <!-- VEHICLE STATUS -->
 
                         <div class="field">
 
@@ -764,8 +712,7 @@
 
                             <select
                                 id="new-status"
-                                name="status"
-                            >
+                                name="status">
 
                                 <option value="Available">
                                     Available
@@ -782,9 +729,9 @@
                     </div>
 
 
-                    <!-- =========================
-                         VEHICLE PHOTOGRAPHS
-                    ========================== -->
+                    <!-- =================================
+                         NEW VEHICLE PHOTOGRAPHS
+                    ================================= -->
 
                     <div class="upload-box">
 
@@ -795,6 +742,8 @@
                             images, maximum 3 MB each.
                         </p>
 
+
+                        <!-- SELECT PHOTOGRAPHS -->
 
                         <div class="field">
 
@@ -807,13 +756,11 @@
                                 id="new-photos"
                                 name="photos"
                                 accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-                                multiple
-                            >
-
+                                multiple>
                         </div>
 
 
-                        <!-- PRIMARY IMAGE -->
+                        <!-- SELECT MAIN PHOTOGRAPH -->
 
                         <div class="field">
 
@@ -823,8 +770,7 @@
 
                             <select
                                 id="new-primary"
-                                name="primaryIndex"
-                            >
+                                name="primaryIndex">
 
                                 <option value="0">
                                     First photograph
@@ -841,16 +787,13 @@
 
                     <button
                         type="submit"
-                        id="save-new"
-                    >
+                        id="save-new">
                         Save Vehicle and Photos
                     </button>
 
-
                     <p
                         id="create-result"
-                        aria-live="polite"
-                    >
+                        aria-live="polite">
                     </p>
 
                 </form>
@@ -860,27 +803,23 @@
 
             <!-- =================================
                  CUSTOMER RESERVATIONS
-                 
+
                  manager-reservations.js adds
-                 the reservation table here,
+                 the reservation interface
                  inside manager-content.
-            ================================== -->
+            ================================= -->
 
         </div>
 
     </main>
 
 
-    <!-- =====================================
-         EXISTING MANAGER INVENTORY SYSTEM
-    ===================================== -->
+    <!-- EXISTING MANAGER INVENTORY SYSTEM -->
 
     <script src="manager.js"></script>
 
 
-    <!-- =====================================
-         NEW RESERVATION AND PAYMENT SYSTEM
-    ===================================== -->
+    <!-- RESERVATIONS AND PAYMENT MANAGEMENT -->
 
     <script src="manager-reservations.js"></script>
 

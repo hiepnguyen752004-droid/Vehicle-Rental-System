@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,123 +14,373 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-
-        .login-container {
-            max-width: 450px;
-            margin: 70px auto;
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        .login-container h2 {
-            color: #14243a;
-            margin-top: 0;
-        }
-
-        .login-container label {
-            display: block;
-            margin: 18px 0 8px;
-            font-weight: bold;
-        }
-
-        .login-container input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
+        * {
             box-sizing: border-box;
         }
 
-        .login-container button {
-            margin-top: 20px;
-            padding: 13px 22px;
-            background: #1769d2;
-            color: white;
-            border: none;
-            border-radius: 7px;
-            cursor: pointer;
-        }
-
-        #login-message {
-            margin-top: 20px;
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #14243a;
         }
 
         [hidden] {
             display: none !important;
         }
 
+        .auth-header {
+            background: #14243a;
+            color: white;
+            padding: 17px 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .auth-header h1 {
+            margin: 0;
+            color: white;
+            font-size: 25px;
+        }
+
+        .auth-header nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        .auth-header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0;
+        }
+
+        .auth-main {
+            padding: 70px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .auth-card {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .auth-card h2 {
+            font-size: 25px;
+            margin: 0 0 25px;
+        }
+
+        #login-form {
+            width: 100%;
+            max-width: none;
+            padding: 0;
+            margin: 0;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .auth-field {
+            margin-bottom: 20px;
+        }
+
+        .auth-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        .auth-field input {
+            width: 100%;
+            max-width: none;
+            height: 47px;
+
+            padding: 12px;
+
+            border: 1px solid #ccd2dc;
+            border-radius: 7px;
+
+            background: white;
+            color: #222;
+            font-size: 15px;
+        }
+
+        .auth-button {
+            width: auto;
+            padding: 13px 25px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #1769d2;
+            color: white;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .auth-button:hover {
+            background: #1054ae;
+        }
+
+        .signup-section {
+            margin-top: 25px;
+            padding-top: 22px;
+
+            border-top: 1px solid #e1e5eb;
+
+            text-align: center;
+        }
+
+        .signup-section p {
+            margin-bottom: 12px;
+        }
+
+        .signup-link {
+            display: inline-block;
+            padding: 12px 22px;
+
+            color: white;
+            background: #16834b;
+
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link:hover {
+            background: #116438;
+        }
+
+        #login-message {
+            margin-top: 18px;
+            color: #b42318;
+        }
+
+        #registration-banner {
+            padding: 14px;
+            margin-bottom: 20px;
+
+            background: #def5e5;
+            color: #155d35;
+
+            border-radius: 7px;
+        }
+
+        #account-panel {
+            padding-top: 10px;
+        }
+
+        #account-panel p {
+            margin: 15px 0;
+        }
+
+        #logout-button {
+            background: #596375;
+        }
+
+        @media (max-width: 500px) {
+            .auth-card {
+                padding: 25px;
+            }
+
+            .auth-header {
+                padding: 16px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <header>
+    <!-- =================================
+         NAVIGATION
+    ================================= -->
+
+    <header class="auth-header">
 
         <h1>QuickRoute Rentals</h1>
 
         <nav>
-            <a href="index.html">Home</a>
-            <a href="index.html#vehicles">Vehicles</a>
-            <a href="login.html">Login</a>
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="index.html#vehicles">
+                Vehicles
+            </a>
+
+            <a href="login.html">
+                Login
+            </a>
         </nav>
 
     </header>
 
-    <main class="login-container">
 
-        <h2>Account Login</h2>
+    <!-- =================================
+         LOGIN CONTAINER
+    ================================= -->
 
-        <form id="login-form">
+    <main class="auth-main">
 
-            <label for="email">
-                Email
-            </label>
+        <section class="auth-card">
 
-            <input
-                type="email"
-                id="email"
-                required
-                autocomplete="username"
-            >
+            <h2>Account Login</h2>
 
-            <label for="password">
-                Password
-            </label>
 
-            <input
-                type="password"
-                id="password"
-                required
-                autocomplete="current-password"
-            >
+            <!-- REGISTRATION SUCCESS -->
 
-            <button type="submit">
-                Log In
-            </button>
+            <div id="registration-banner" hidden>
+                Account created successfully.
+                Please log in with your new account.
+            </div>
 
-        </form>
 
-        <section id="account-panel" hidden>
+            <!-- =================================
+                 EXISTING LOGIN FORM
+            ================================= -->
 
-            <h3 id="welcome-message"></h3>
+            <form id="login-form">
 
-            <p id="account-role"></p>
+                <div class="auth-field">
 
-            <button type="button"
-                    id="logout-button">
-                Log Out
-            </button>
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        maxlength="150"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-button">
+                    Log In
+                </button>
+
+                <p id="login-message"
+                   role="status"
+                   aria-live="polite">
+                </p>
+
+
+                <!-- NEW CUSTOMER ACCOUNT -->
+
+                <div class="signup-section">
+
+                    <p>
+                        Don't have an account?
+                    </p>
+
+                    <a
+                        href="register.html"
+                        class="signup-link">
+                        Create Account
+                    </a>
+
+                </div>
+
+            </form>
+
+
+            <!-- =================================
+                 LOGGED-IN ACCOUNT PANEL
+            ================================= -->
+
+            <div id="account-panel" hidden>
+
+                <h3 id="welcome-message">
+                    Welcome!
+                </h3>
+
+                <p>
+                    Account Role:
+                    <strong id="account-role"></strong>
+                </p>
+
+                <p>
+                    <a href="index.html#vehicles">
+                        Browse Vehicles
+                    </a>
+                </p>
+
+                <p>
+                    <a href="manager.html"
+                       id="dashboard-link">
+                        Manager Dashboard
+                    </a>
+                </p>
+
+                <button
+                    id="logout-button"
+                    type="button"
+                    class="auth-button">
+                    Log Out
+                </button>
+
+            </div>
 
         </section>
 
-        <p id="login-message"
-           aria-live="polite"></p>
-
     </main>
 
+
+    <!-- EXISTING LOGIN SYSTEM -->
+
     <script src="login.js"></script>
+
+
+    <!-- DISPLAY SUCCESS AFTER REGISTRATION -->
+
+    <script>
+        const params = new URLSearchParams(
+            window.location.search
+        );
+
+        if (params.get("registered") === "1") {
+            document.getElementById(
+                "registration-banner"
+            ).hidden = false;
+        }
+    </script>
 
 </body>
 </html>

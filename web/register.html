@@ -1,0 +1,576 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account - QuickRoute Rentals</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #14243a;
+        }
+
+        .register-header {
+            background: #14243a;
+            color: white;
+
+            padding: 17px 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .register-header h1 {
+            margin: 0;
+            font-size: 25px;
+            color: white;
+        }
+
+        .register-header nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        .register-header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0;
+        }
+
+        .register-container {
+            display: flex;
+            justify-content: center;
+
+            padding: 55px 20px;
+        }
+
+        .register-card {
+            width: 100%;
+            max-width: 520px;
+
+            padding: 35px;
+
+            background: white;
+
+            border-radius: 13px;
+
+            box-shadow:
+                0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .register-card h2 {
+            margin: 0 0 12px;
+            font-size: 27px;
+        }
+
+        .register-description {
+            color: #596579;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        #register-form {
+            width: 100%;
+            max-width: none;
+            padding: 0;
+            margin: 0;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        .form-group input {
+            width: 100%;
+            max-width: none;
+            height: 48px;
+
+            padding: 12px;
+
+            border: 1px solid #ccd2dc;
+            border-radius: 7px;
+
+            background: white;
+            color: #222;
+
+            font-size: 15px;
+        }
+
+        .form-group input:focus {
+            outline: 2px solid #1769d2;
+            outline-offset: 1px;
+        }
+
+        .password-hint {
+            color: #68758a;
+            font-size: 13px;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .register-button {
+            display: block;
+            width: 100%;
+
+            padding: 15px;
+
+            background: #1769d2;
+            color: white;
+
+            border: none;
+            border-radius: 7px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .register-button:hover {
+            background: #1054ae;
+        }
+
+        .register-button:disabled {
+            background: #90b5e5;
+            cursor: wait;
+        }
+
+        #register-message {
+            margin-top: 18px;
+            line-height: 1.6;
+            font-weight: bold;
+        }
+
+        #register-message.error {
+            color: #b42318;
+        }
+
+        #register-message.success {
+            color: #166534;
+        }
+
+        .login-section {
+            text-align: center;
+
+            margin-top: 28px;
+            padding-top: 22px;
+
+            border-top: 1px solid #e1e5eb;
+        }
+
+        .login-section a {
+            color: #1769d2;
+            font-weight: bold;
+        }
+
+        @media (max-width: 550px) {
+            .register-card {
+                padding: 24px;
+            }
+
+            .register-header {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================
+         NAVIGATION
+    ===================================== -->
+
+    <header class="register-header">
+
+        <h1>QuickRoute Rentals</h1>
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="index.html#vehicles">
+                Vehicles
+            </a>
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =====================================
+         CUSTOMER REGISTRATION
+    ===================================== -->
+
+    <main class="register-container">
+
+        <section class="register-card">
+
+            <h2>Create Your Account</h2>
+
+            <p class="register-description">
+                Join QuickRoute Rentals to browse,
+                reserve, and manage your rental vehicles.
+            </p>
+
+
+            <form id="register-form">
+
+
+                <!-- FULL NAME -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        id="name"
+                        type="text"
+                        maxlength="100"
+                        autocomplete="name"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        id="email"
+                        type="email"
+                        maxlength="150"
+                        autocomplete="email"
+                        placeholder="example@email.com"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        id="phone"
+                        type="tel"
+                        maxlength="30"
+                        autocomplete="tel"
+                        placeholder="Enter your phone number"
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        id="password"
+                        type="password"
+                        minlength="12"
+                        maxlength="128"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <p class="password-hint">
+                        Password must contain at least
+                        12 characters.
+                    </p>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="confirm-password">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        id="confirm-password"
+                        type="password"
+                        minlength="12"
+                        maxlength="128"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CREATE ACCOUNT -->
+
+                <button
+                    id="register-button"
+                    class="register-button"
+                    type="submit">
+
+                    Create Account
+
+                </button>
+
+                <p
+                    id="register-message"
+                    role="status"
+                    aria-live="polite">
+                </p>
+
+            </form>
+
+
+            <!-- LOGIN LINK -->
+
+            <div class="login-section">
+
+                <p>
+                    Already have an account?
+                </p>
+
+                <a href="login.html">
+                    Log In
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================
+         CUSTOMER REGISTRATION JAVASCRIPT
+    ===================================== -->
+
+    <script>
+        "use strict";
+
+        const form =
+            document.getElementById("register-form");
+
+        const registerButton =
+            document.getElementById("register-button");
+
+        const message =
+            document.getElementById("register-message");
+
+
+        // =================================
+        // SHOW RESPONSE MESSAGE
+        // =================================
+
+        function showMessage(text, success = false)
+        {
+            message.textContent = text;
+
+            message.className =
+                success ? "success" : "error";
+        }
+
+
+        // =================================
+        // REGISTER CUSTOMER
+        // =================================
+
+        form.addEventListener(
+            "submit",
+            async function(event)
+            {
+                event.preventDefault();
+
+                const name =
+                    document.getElementById("name")
+                        .value.trim();
+
+                const email =
+                    document.getElementById("email")
+                        .value.trim();
+
+                const phone =
+                    document.getElementById("phone")
+                        .value.trim();
+
+                const password =
+                    document.getElementById("password")
+                        .value;
+
+                const confirmPassword =
+                    document.getElementById("confirm-password")
+                        .value;
+
+
+                // =================================
+                // INPUT VALIDATION
+                // =================================
+
+                if (!name || !email)
+                {
+                    showMessage(
+                        "Name and email are required."
+                    );
+
+                    return;
+                }
+
+                if (password.length < 12 ||
+                    password.length > 128)
+                {
+                    showMessage(
+                        "Password must be 12–128 characters."
+                    );
+
+                    return;
+                }
+
+                if (password !== confirmPassword)
+                {
+                    showMessage(
+                        "Passwords do not match."
+                    );
+
+                    return;
+                }
+
+
+                // =================================
+                // SEND TO C++ CROW API
+                // =================================
+
+                registerButton.disabled = true;
+
+                registerButton.textContent =
+                    "Creating Account...";
+
+                showMessage("");
+
+
+                try
+                {
+                    const response = await fetch(
+                        "/api/auth/register",
+                        {
+                            method: "POST",
+
+                            credentials: "same-origin",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                name: name,
+                                email: email,
+                                phone: phone,
+                                password: password
+                            })
+                        }
+                    );
+
+
+                    const data =
+                        await response.json();
+
+
+                    // =================================
+                    // HANDLE ERRORS
+                    // =================================
+
+                    if (!response.ok ||
+                        data.status !== "success")
+                    {
+                        throw new Error(
+                            data.message ||
+                            "Unable to create account."
+                        );
+                    }
+
+
+                    // =================================
+                    // SUCCESS
+                    // =================================
+
+                    showMessage(
+                        "Account created successfully! " +
+                        "You can now log in.",
+                        true
+                    );
+
+                    form.reset();
+
+                    window.location.assign(
+                        "/login.html?registered=1"
+                    );
+
+                }
+                catch (error)
+                {
+                    showMessage(error.message);
+                }
+                finally
+                {
+                    registerButton.disabled = false;
+
+                    registerButton.textContent =
+                        "Create Account";
+                }
+            }
+        );
+    </script>
+
+</body>
+</html>

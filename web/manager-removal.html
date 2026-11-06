@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Vehicle Removal - QuickRoute Rentals</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #14243a;
+        }
+
+        header {
+            background: #14243a;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 1250px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .description {
+            color: #596579;
+            line-height: 1.6;
+        }
+
+        #search {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ccd2dc;
+            border-radius: 7px;
+            font-size: 15px;
+            margin: 20px 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e3e7ed;
+        }
+
+        th {
+            background: #eef2f8;
+            color: #14243a;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            margin: 3px;
+            font-weight: bold;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: wait;
+        }
+
+        .archive {
+            background: #d18b14;
+        }
+
+        .restore {
+            background: #16834b;
+        }
+
+        .delete {
+            background: #c93636;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .status.archived {
+            color: #a14b27;
+        }
+
+        #message {
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #c93636;
+        }
+
+        .success {
+            color: #16834b;
+        }
+
+        .warning {
+            background: #fff2d6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 650px) {
+            .panel {
+                padding: 15px;
+            }
+
+            main {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>QuickRoute Rentals</h1>
+
+        <nav>
+            <a href="manager.html">
+                Back to Manager Dashboard
+            </a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section class="panel">
+
+            <h2>Vehicle Inventory Management</h2>
+
+            <p class="description">
+                Archive, restore, or permanently
+                delete vehicles from the inventory.
+            </p>
+
+            <div class="warning">
+                <strong>Archive:</strong>
+                Hides vehicles from the customer
+                inventory while preserving history.
+
+                <br>
+
+                <strong>Delete:</strong>
+                Permanently removes vehicles that
+                have no reservation history.
+            </div>
+
+            <input
+                id="search"
+                type="search"
+                placeholder="Search by make, model, category, or ID..."
+            >
+
+            <p id="message" role="status">
+                Loading vehicles...
+            </p>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Vehicle</th>
+                            <th>Category</th>
+                            <th>Daily Rate</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="vehicle-rows">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        "use strict";
+
+        let vehicles = [];
+        let busy = false;
+
+        const rows =
+            document.getElementById("vehicle-rows");
+
+        const message =
+            document.getElementById("message");
+
+        const search =
+            document.getElementById("search");
+
+
+        function showMessage(text, error = false) {
+            message.textContent = text;
+            message.className =
+                error ? "error" : "success";
+        }
+
+
+        function addCell(row, text) {
+            const cell =
+                document.createElement("td");
+
+            cell.textContent = String(text);
+
+            row.appendChild(cell);
+
+            return cell;
+        }
+
+
+        function createButton(label, className, callback) {
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+            button.textContent = label;
+            button.className = className;
+            button.disabled = busy;
+
+            button.addEventListener(
+                "click",
+                callback
+            );
+
+            return button;
+        }
+
+
+        function renderVehicles() {
+
+            rows.replaceChildren();
+
+            const keyword =
+                search.value.trim().toLowerCase();
+
+            const filtered = vehicles.filter(vehicle => {
+
+                const text = [
+                    vehicle.id,
+                    vehicle.make,
+                    vehicle.model,
+                    vehicle.year,
+                    vehicle.category,
+                    vehicle.status
+                ].join(" ").toLowerCase();
+
+                return text.includes(keyword);
+            });
+
+
+            for (const vehicle of filtered) {
+
+                const row =
+                    document.createElement("tr");
+
+                addCell(row, vehicle.id);
+
+                addCell(
+                    row,
+                    `${vehicle.year} ${vehicle.make} ${vehicle.model}`
+                );
+
+                addCell(row, vehicle.category);
+
+                addCell(
+                    row,
+                    "$" + Number(vehicle.dailyRate).toFixed(2)
+                );
+
+                const statusCell =
+                    addCell(row, vehicle.status);
+
+                statusCell.className =
+                    vehicle.status === "Archived"
+                    ? "status archived"
+                    : "status";
+
+                const actions =
+                    document.createElement("td");
+
+
+                if (vehicle.status === "Archived") {
+
+                    actions.appendChild(
+                        createButton(
+                            "Restore",
+                            "restore",
+                            () => performAction(
+                                vehicle, "restore"
+                            )
+                        )
+                    );
+
+                } else {
+
+                    actions.appendChild(
+                        createButton(
+                            "Archive",
+                            "archive",
+                            () => performAction(
+                                vehicle, "archive"
+                            )
+                        )
+                    );
+                }
+
+
+                actions.appendChild(
+                    createButton(
+                        "Delete",
+                        "delete",
+                        () => performAction(
+                            vehicle, "delete"
+                        )
+                    )
+                );
+
+                row.appendChild(actions);
+
+                rows.appendChild(row);
+            }
+
+            if (filtered.length === 0) {
+                showMessage("No matching vehicles found.");
+            }
+        }
+
+
+        async function loadVehicles() {
+
+            try {
+
+                const response = await fetch(
+                    "/api/manager/vehicle-removal/list",
+                    {
+                        credentials: "same-origin",
+                        cache: "no-store"
+                    }
+                );
+
+                const result = await response.json();
+
+                if (!response.ok ||
+                    result.status !== "success") {
+
+                    throw new Error(
+                        result.message ||
+                        "Unable to load vehicles"
+                    );
+                }
+
+                vehicles = result.vehicles || [];
+
+                showMessage(
+                    `${vehicles.length} vehicles loaded`
+                );
+
+                renderVehicles();
+
+            } catch (error) {
+
+                showMessage(error.message, true);
+            }
+        }
+
+
+        async function performAction(vehicle, action) {
+
+            if (busy) {
+                return;
+            }
+
+            const name =
+                `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
+
+            if (action === "delete") {
+
+                const entered = prompt(
+                    `Permanently delete ${name}?\n` +
+                    `Vehicle ID: ${vehicle.id}\n\n` +
+                    `Type the vehicle ID to confirm:`
+                );
+
+                if (entered === null) {
+                    return;
+                }
+
+                if (entered.trim() !== String(vehicle.id)) {
+                    showMessage(
+                        "Deletion cancelled. Vehicle ID did not match.",
+                        true
+                    );
+
+                    return;
+                }
+
+            } else {
+
+                const confirmed = confirm(
+                    `${action.toUpperCase()} ${name}?\n` +
+                    `Vehicle ID: ${vehicle.id}`
+                );
+
+                if (!confirmed) {
+                    return;
+                }
+            }
+
+
+            busy = true;
+            renderVehicles();
+
+            try {
+
+                const url =
+                    `/api/manager/vehicle-removal/` +
+                    `${encodeURIComponent(vehicle.id)}/` +
+                    action;
+
+                const response = await fetch(url, {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: "{}"
+                });
+
+                const result = await response.json();
+
+                if (!response.ok ||
+                    result.status !== "success") {
+
+                    throw new Error(
+                        result.message ||
+                        "Operation failed"
+                    );
+                }
+
+                showMessage(result.message);
+
+                await loadVehicles();
+
+            } catch (error) {
+
+                showMessage(error.message, true);
+
+            } finally {
+
+                busy = false;
+                renderVehicles();
+            }
+        }
+
+
+        search.addEventListener(
+            "input",
+            renderVehicles
+        );
+
+
+        loadVehicles();
+    </script>
+
+</body>
+</html>
